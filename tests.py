@@ -1,4 +1,4 @@
-from sb_parser.parser import Parser
+from leaguepedia_sb_parser.parser import Parser
 from river_mwclient.esports_client import EsportsClient
 from river_mwclient.auth_credentials import AuthCredentials
 
