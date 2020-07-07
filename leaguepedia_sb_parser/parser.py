@@ -2,7 +2,6 @@ import time
 from lol_esports_parser import get_riot_series, get_riot_game
 from river_mwclient.esports_client import EsportsClient
 from river_mwclient.wiki_time_parser import time_from_str
-
 HEADER_TEXT = "{{{{MatchRecapS8/Header|{}|{}}}}}"
 
 # |{blue}{1}={args}{items}
@@ -20,6 +19,18 @@ class Parser(object):
     def __init__(self, site: EsportsClient, event: str):
         self.site = site
         self.event = site.target(event)
+    
+    def parse_riot_series(self, urls: list):
+        series = get_riot_series(urls)
+        teams = self.determine_teams_from_game_1(series)
+        output_parts = [self.make_match_header(teams)]
+        for i, game in enumerate(series['games']):
+            output_parts.append(self.parse_one_game(game, urls[i]))
+        return '\n'.join(output_parts)
+    
+    def parse_riot_game(self, url):
+        game = get_riot_game(url)
+        return self.parse_one_game(game, url)
     
     @staticmethod
     def concat_args(lookup: list):
@@ -40,15 +51,6 @@ class Parser(object):
             ret = ret + '|{}{}= {}'.format(param_prefix, str(i + 1), arg)
         return ret
     
-    def parse_riot_series(self, urls: list, teams: list = None):
-        series = get_riot_series(urls)
-        if teams is None:
-            teams = self.determine_teams_from_game_1(series)
-        output_parts = [self.make_match_header(teams)]
-        for game in series['games']:
-            output_parts.append(self.parse_one_game(game))
-        return '\n'.join(output_parts)
-    
     @staticmethod
     def determine_teams_from_game_1(series):
         game = series['games'][0]
@@ -64,13 +66,13 @@ class Parser(object):
             self.site.cache.get_team_from_event_tricode(self.event, teams[1])
         )
     
-    def parse_one_game(self, game):
+    def parse_one_game(self, game, url):
         return GAME_TEXT.format(
-            self.concat_args(self.extract_game_args(game)),
+            self.concat_args(self.extract_game_args(game, url)),
             self.parse_teams(game)
         )
     
-    def extract_game_args(self, game):
+    def extract_game_args(self, game, url):
         timestamp = time_from_str(game['start'])
         game_args = [
             {'patch': game['patch']},
@@ -80,6 +82,8 @@ class Parser(object):
             {'date': timestamp.cet_date},
             {'dst': timestamp.dst},
             {'time': timestamp.cet_time},
+            {'statslink': url},
+            {'vodlink': ''},
         ]
         return game_args
     
@@ -145,9 +149,13 @@ class Parser(object):
             {'visionscore': player['endOfGameStats']['visionScore']},
             {'summonerspell1': player['summonerSpells'][0]['name']},
             {'summonerspell2': player['summonerSpells'][1]['name']},
-            {'pentakills': player['endOfGameStats']['pentaKills']},
             {'keystone': player['runes'][0]['name'] if 'runes' in player else None},
             {'secondary': player['secondaryRuneTreeName']},
-            {'trinket': player['endOfGameStats']['items'][6]['name']}
+            {'trinket': player['endOfGameStats']['items'][6]['name']},
+            
+            # keep this last so it's consecutive with pentakillvod
+            {'pentakills': player['endOfGameStats']['pentaKills']},
         ]
+        if player['endOfGameStats']['pentaKills'] > 0:
+            player_args.append({'pentakillvod', ''})
         return player_args
