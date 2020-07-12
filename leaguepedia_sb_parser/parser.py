@@ -18,7 +18,7 @@ class Parser(object):
     
     def __init__(self, site: EsportsClient, event: str, patch: str = None):
         self.site = site
-        self.patch = None
+        self.patch = patch
         self.event = site.target(event)
         self.warnings = []
     
