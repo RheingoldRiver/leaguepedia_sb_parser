@@ -13,6 +13,8 @@ class ChineseParser(Parser):
             match_id = match_id[0]
         if isinstance(match_id, str):
             match_id = int(match_id)
+        print(match_id)
+        print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         series = get_chinese_series(match_id)
         teams = self.determine_teams_from_game_1(series)
         output_parts = []

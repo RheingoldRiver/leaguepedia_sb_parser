@@ -11,10 +11,6 @@ riot_parser = RiotParser(site, 'LCK/2020 Season/Summer Season')
 chinese_parser = ChineseParser(site, 'LPL/2020 Season/Summer Season')
 multi_parser = MultiParser(chinese_parser)
 
-text = """6200
-
-6201
-
-6202"""
+text = """6200"""
 
 print(multi_parser.parse_multi_series(text))
