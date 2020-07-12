@@ -16,6 +16,7 @@ class MultiParser(object):
         list_of_series = text.split('\n\n')
         output = []
         for series in list_of_series:
-            output.append(self.parser.parse_series(series))
+            series_array = series.split('\n')
+            output.append(self.parser.parse_series(series_array))
         
         return self.start + self.between.join(output) + self.end
