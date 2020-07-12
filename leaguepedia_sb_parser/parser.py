@@ -17,6 +17,10 @@ class Parser(object):
     TEAM_TEXT = '{}{}{}'
     
     def __init__(self, site: EsportsClient, event: str, patch: str = None):
+        # patch could be an empty string if it's from a cookie
+        # handle it here because there's branching changes in flask
+        if patch == '':
+            patch = None
         self.site = site
         self.patch = patch
         self.event = site.target(event)
