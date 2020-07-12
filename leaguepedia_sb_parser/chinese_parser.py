@@ -6,6 +6,11 @@ from lol_esports_parser import get_chinese_series
 class ChineseParser(Parser):
     
     def parse_series(self, match_id, include_header=True):
+        # allow to be compatible with receiving data from multi_series_parser
+        # which will just blindly split by newlines and return lists
+        # easier to correct here than to add correction to both this and riot_parser i guess
+        if isinstance(match_id, list):
+            match_id = match_id[0]
         if isinstance(match_id, str):
             match_id = int(match_id)
         series = get_chinese_series(match_id)
