@@ -12,6 +12,6 @@ chinese_parser = ChineseParser(site, 'LPL/2020 Season/Summer Season')
 
 # print(riot_parser.parse_series(['https://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT01/1415112?gameHash=bb66036323278a5c&tab=overview', 'https://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT01/1415168?gameHash=552fc6b68f1c6847&tab=overview']))
 
-print(chinese_parser.parse_series('https://lpl.qq.com/es/stats.shtml?bmid=6200'))
+print(chinese_parser.parse_series('6200'))
 
-print(chinese_parser.warnings)
+# print(chinese_parser.warnings)

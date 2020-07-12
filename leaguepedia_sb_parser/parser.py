@@ -59,12 +59,14 @@ class Parser(object):
         return ret
 
     def get_final_team_name(self, team_name):
+        if team_name is None:
+            return None
         return self.site.cache.get_team_from_event_tricode(self.event, team_name)
     
     def make_match_header(self, teams: list):
         return self.HEADER_TEXT.format(
-            self.site.cache.get_team_from_event_tricode(self.event, teams[0]) or teams[0],
-            self.site.cache.get_team_from_event_tricode(self.event, teams[1]) or teams[1]
+            self.get_final_team_name(teams[0]) or teams[0],
+            self.get_final_team_name(teams[1]) or teams[1]
         )
     
     def parse_one_game(self, game, url):

@@ -2,11 +2,14 @@ from leaguepedia_sb_parser.parser import Parser
 
 
 class MultiParser(object):
-    start = '{{box|start}}\n'
     between = '\n{{box|break}}\n'
-    end = '\n{{box|end}}'
     
-    def __init__(self, parser: Parser):
+    def __init__(self, parser: Parser, wrap_in_box=False):
+        self.end = ''
+        self.start = ''
+        if wrap_in_box:
+            self.end = '\n{{box|end}}'
+            self.start = '{{box|start}}\n'
         self.parser = parser
     
     def parse_multi_series(self, text):
