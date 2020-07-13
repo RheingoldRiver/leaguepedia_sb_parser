@@ -81,14 +81,14 @@ class Parser(object):
     
     def extract_game_args(self, game, url):
         timestamp = time_from_str(game['start'])
-        patch = game.get('patch') or self.patch
+        patch = game.get('patch')
         if self.patch is not None and patch is not None:
             self.warnings.append('Patch provided, but also available in game! Using provided patch....')
             patch = self.patch
         if self.patch is None and patch is None:
             self.warnings.append('Patch is not provided and also not available in game! Leaving blank....')
         game_args = [
-            {'patch': patch},
+            {'patch': patch or self.patch},
             {'winner': 1 if game['winner'] == 'BLUE' else 2},
             {'gamelength': self.get_duration(game['duration']) if 'duration' in game else None},
             {'timezone': 'CET'},
