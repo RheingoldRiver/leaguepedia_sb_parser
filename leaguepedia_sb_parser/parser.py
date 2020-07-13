@@ -131,8 +131,19 @@ class Parser(object):
             {teamname + 't': team['endOfGameStats'].get('towerKills')},
             {teamname + 'rh': team['endOfGameStats'].get('riftHeraldKills')},
             {teamname + 'i': team['endOfGameStats'].get('inhibitorKills')},
+            {teamname + 'cloud': self.team_drake_count(team, "CLOUD")},
+            {teamname + 'infernal': self.team_drake_count(team, "INFERNAL")},
+            {teamname + 'mountain': self.team_drake_count(team, "MOUNTAIN")},
+            {teamname + 'ocean': self.team_drake_count(team, "OCEAN")},
+            {teamname + 'elder': self.team_drake_count(team, "ELDER")},
         ]
         return team_args
+    
+    @staticmethod
+    def team_drake_count(team, dragon_type):
+        if 'monstersKills' not in team:
+            return None
+        return len([_ for _ in team["monstersKills"] if _.get("subType") == dragon_type])
     
     def parse_players(self, side_name, team):
         ret = []
