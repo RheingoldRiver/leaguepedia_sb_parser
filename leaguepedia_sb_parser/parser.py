@@ -178,6 +178,7 @@ class Parser(object):
             {'gold': player['endOfGameStats']['gold']},
             {'cs': player['endOfGameStats']['cs']},
             {'visionscore': player['endOfGameStats'].get('visionScore')},
+            {'damagetochamps': player['endOfGameStats'].get('totalDamageDealtToChampions')},
             {'summonerspell1': player['summonerSpells'][0]['name']},
             {'summonerspell2': player['summonerSpells'][1]['name']},
             {'keystone': player['runes'][0]['name'] if 'runes' in player else None},
