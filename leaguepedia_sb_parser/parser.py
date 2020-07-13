@@ -81,7 +81,7 @@ class Parser(object):
     
     def extract_game_args(self, game, url):
         timestamp = time_from_str(game['start'])
-        patch = game.get('patch')
+        patch = game.get('patch') or self.patch
         if self.patch is not None and patch is not None:
             self.warnings.append('Patch provided, but also available in game! Using provided patch....')
             patch = self.patch
