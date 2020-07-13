@@ -6,7 +6,7 @@ from leaguepedia_sb_parser.parser import Parser
 class RiotParser(Parser):
     
     def parse_series(self, urls: list, include_header=True):
-        series = get_riot_series(urls)
+        series = get_riot_series(urls, get_timeline=True, add_names=True)
         teams = self.determine_teams_from_game_1(series)
         output_parts = []
         if include_header:
