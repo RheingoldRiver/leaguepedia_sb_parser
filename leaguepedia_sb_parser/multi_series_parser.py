@@ -5,11 +5,11 @@ class MultiParser(object):
     between = '\n{{box|break}}\n'
     
     def __init__(self, parser: Parser, wrap_in_box=False):
-        self.end = ''
         self.start = ''
+        self.end = ''
         if wrap_in_box:
-            self.end = '\n{{box|end}}'
             self.start = '{{box|start}}\n'
+            self.end = '\n{{box|end}}'
         self.parser = parser
     
     def parse_multi_series(self, text):
