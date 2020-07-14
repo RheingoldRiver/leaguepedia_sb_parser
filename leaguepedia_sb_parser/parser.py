@@ -16,7 +16,7 @@ class Parser(object):
     # |{blue}{1}={args}{items}{runes}
     PLAYER_TEXT = '|{}{}={{{{MatchRecapS8/Player{}{}{}}}}}'
     
-    RUNES_TEXT = '\n|runes={{{{Runes{}}}}}'
+    RUNES_TEXT = '\n|runes={{{{Scoreboard/Player/Runes|{}}}}}'
     
     def __init__(self, site: EsportsClient, event: str, patch: str = None):
         # patch could be an empty string if it's from a cookie
