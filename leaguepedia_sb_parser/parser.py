@@ -5,9 +5,6 @@ from river_mwclient.wiki_time_parser import time_from_str
 
 class Parser(object):
     HEADER_TEXT = "{{{{MatchRecapS8/Header|{}|{}}}}}"
-
-    # |{blue}{1}={args}{items}
-    PLAYER_TEXT = '|{}{}={{{{MatchRecapS8/Player{}{}}}}}'
     
     GAME_TEXT = '{{{{MatchRecapS8{}\n{}}}}}'
     
@@ -15,6 +12,9 @@ class Parser(object):
     
     # team args, team bans, player args
     TEAM_TEXT = '{}{}\n{}'
+    
+    # |{blue}{1}={args}{items}
+    PLAYER_TEXT = '|{}{}={{{{MatchRecapS8/Player{}{}}}}}'
     
     def __init__(self, site: EsportsClient, event: str, patch: str = None):
         # patch could be an empty string if it's from a cookie
@@ -61,7 +61,7 @@ class Parser(object):
             self.get_final_team_name(game['teams']['RED']['name']),
         ]
         return ret
-
+    
     def get_final_team_name(self, team_name):
         if team_name is None:
             return None
@@ -110,7 +110,7 @@ class Parser(object):
     def parse_teams(self, game):
         ret = []
         for i, team in enumerate(self.TEAMS):
-            teamname = 'team{}'.format(str(i+1))
+            teamname = 'team{}'.format(str(i + 1))
             ret.append(self.TEAM_TEXT.format(
                 self.concat_args(self.extract_team_args(game['teams'][team], teamname)),
                 self.list_args(game['teams'][team]['bansNames'], '{}ban'.format(teamname)),
@@ -165,12 +165,17 @@ class Parser(object):
         if player_name is None or player_name == '':
             self.warnings.append('Player name cannot be parsed, using full name of {}'.format(player['inGameName']))
             player_name = player['inGameName']
+        disambiguated_name = self.site.cache.get_disambiguated_player_from_event(
+            self.event,
+            self.site.cache.get_team_from_event_tricode(self.event, team['name']),
+            player_name
+        )
+        if disambiguated_name is None:
+            warning = 'Disambiguated name for {} couldn\'t be found, perhaps player is missing from team rosters!'
+            self.warnings.append(warning.format(player_name))
+            disambiguated_name = player_name
         player_args = [
-            {'link': self.site.cache.get_disambiguated_player_from_event(
-                self.event,
-                self.site.cache.get_team_from_event_tricode(self.event, team['name']),
-                player_name
-            )},
+            {'link': disambiguated_name},
             {'champion': player['championName']},
             {'kills': player['endOfGameStats']['kills']},
             {'deaths': player['endOfGameStats']['deaths']},
