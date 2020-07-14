@@ -110,32 +110,32 @@ class Parser(object):
     def parse_teams(self, game):
         ret = []
         for i, team in enumerate(self.TEAMS):
-            teamname = 'team{}'.format(str(i + 1))
+            team_key = 'team{}'.format(str(i + 1))
             ret.append(self.TEAM_TEXT.format(
-                self.concat_args(self.extract_team_args(game['teams'][team], teamname)),
-                self.list_args(game['teams'][team]['bansNames'], '{}ban'.format(teamname)),
+                self.concat_args(self.extract_team_args(game['teams'][team], team_key)),
+                self.list_args(game['teams'][team]['bansNames'], '{}ban'.format(team_key)),
                 self.parse_players(team.lower(), game['teams'][team])
             ))
         return '\n'.join(ret)
     
-    def extract_team_args(self, team, teamname):
+    def extract_team_args(self, team, team_key):
         team_name = self.get_final_team_name(team['name'])
         if team_name is None:
-            self.warnings.append('Final team name for {} is missing (original: {})'.format(teamname, team['name']))
+            self.warnings.append('Final team name for {} is missing (original: {})'.format(team_key, team['name']))
         team_args = [
-            {teamname + '': team_name or team['name']},
-            {teamname + 'g': sum(player['endOfGameStats']['gold'] for player in team['players'])},
-            {teamname + 'k': sum(player['endOfGameStats']['kills'] for player in team['players'])},
-            {teamname + 'd': team['endOfGameStats'].get('dragonKills')},
-            {teamname + 'b': team['endOfGameStats'].get('baronKills')},
-            {teamname + 't': team['endOfGameStats'].get('towerKills')},
-            {teamname + 'rh': team['endOfGameStats'].get('riftHeraldKills')},
-            {teamname + 'i': team['endOfGameStats'].get('inhibitorKills')},
-            {teamname + 'cloud': self.team_drake_count(team, "CLOUD")},
-            {teamname + 'infernal': self.team_drake_count(team, "INFERNAL")},
-            {teamname + 'mountain': self.team_drake_count(team, "MOUNTAIN")},
-            {teamname + 'ocean': self.team_drake_count(team, "OCEAN")},
-            {teamname + 'elder': self.team_drake_count(team, "ELDER")},
+            {team_key + '': team_name or team['name']},
+            {team_key + 'g': sum(player['endOfGameStats']['gold'] for player in team['players'])},
+            {team_key + 'k': sum(player['endOfGameStats']['kills'] for player in team['players'])},
+            {team_key + 'd': team['endOfGameStats'].get('dragonKills')},
+            {team_key + 'b': team['endOfGameStats'].get('baronKills')},
+            {team_key + 't': team['endOfGameStats'].get('towerKills')},
+            {team_key + 'rh': team['endOfGameStats'].get('riftHeraldKills')},
+            {team_key + 'i': team['endOfGameStats'].get('inhibitorKills')},
+            {team_key + 'cloud': self.team_drake_count(team, "CLOUD")},
+            {team_key + 'infernal': self.team_drake_count(team, "INFERNAL")},
+            {team_key + 'mountain': self.team_drake_count(team, "MOUNTAIN")},
+            {team_key + 'ocean': self.team_drake_count(team, "OCEAN")},
+            {team_key + 'elder': self.team_drake_count(team, "ELDER")},
         ]
         return team_args
     
