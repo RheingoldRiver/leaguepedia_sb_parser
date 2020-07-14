@@ -171,7 +171,7 @@ class Parser(object):
             player_name
         )
         if disambiguated_name is None:
-            warning = 'Disambiguated name for {} couldn\'t be found, perhaps player is missing from team rosters!'
+            warning = 'Disambiguated name for {} couldn\'t be found, perhaps player is missing from participants!'
             self.warnings.append(warning.format(player_name))
             disambiguated_name = player_name
         player_args = [
