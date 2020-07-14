@@ -13,8 +13,10 @@ class Parser(object):
     # team args, team bans, player args
     TEAM_TEXT = '{}{}\n{}'
     
-    # |{blue}{1}={args}{items}
-    PLAYER_TEXT = '|{}{}={{{{MatchRecapS8/Player{}{}}}}}'
+    # |{blue}{1}={args}{items}{runes}
+    PLAYER_TEXT = '|{}{}={{{{MatchRecapS8/Player{}{}{}}}}}'
+    
+    RUNES_TEXT = '\n|runes={{{{Runes{}}}}}'
     
     def __init__(self, site: EsportsClient, event: str, patch: str = None):
         # patch could be an empty string if it's from a cookie
@@ -148,15 +150,19 @@ class Parser(object):
     def parse_players(self, side_name, team):
         ret = []
         for i in range(5):
+            player = team['players'][i]
             ret.append(self.PLAYER_TEXT.format(
                 side_name,
                 str(i + 1),
-                self.concat_args(self.extract_player_args(team['players'][i], team)),
+                self.concat_args(self.extract_player_args(player, team)),
                 self.list_args(
                     # don't include the last item because that's actually the trinket
                     [item['name'] for item in team['players'][i]['endOfGameStats']['items'][:-1]],
                     'item'
-                )
+                ),
+                self.RUNES_TEXT.format(
+                    ','.join([_.get('name') for _ in player['runes']])
+                ) if 'runes' in player else ''
             ))
         return '\n'.join(ret)
     

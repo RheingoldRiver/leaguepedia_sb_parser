@@ -10,7 +10,7 @@ site = EsportsClient('lol', credentials=credentials)
 riot_parser = RiotParser(site, 'LCK/2020 Season/Summer Season')
 chinese_parser = ChineseParser(site, 'LPL/2020 Season/Summer Season')
 
-# print(riot_parser.parse_series(['https://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT01/1415112?gameHash=bb66036323278a5c&tab=overview', 'https://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT01/1415168?gameHash=552fc6b68f1c6847&tab=overview']))
+print(riot_parser.parse_series(['https://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT01/1415112?gameHash=bb66036323278a5c&tab=overview', 'https://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT01/1415168?gameHash=552fc6b68f1c6847&tab=overview']))
 
 # print(chinese_parser.parse_series('6200'))
 
