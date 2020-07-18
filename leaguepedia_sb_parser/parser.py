@@ -200,7 +200,7 @@ class Parser(object):
             {'pentakills': player['endOfGameStats'].get('pentaKills')},
         ]
         if 'pentaKills' in player['endOfGameStats'] and player['endOfGameStats']['pentaKills'] > 0:
-            player_args.append({'pentakillvod', ''})
+            player_args.append({'pentakillvod': ''})
         return player_args
     
     def get_player_ingame_name(self, ingame_name, team_name):
