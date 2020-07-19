@@ -25,6 +25,7 @@ class Parser(object):
             patch = None
         self.site = site
         self.patch = patch
+        self.tournament = event
         self.event = site.target(event)
         self.warnings = []
     
@@ -90,7 +91,7 @@ class Parser(object):
         if self.patch is None and patch is None:
             self.warnings.append('Patch is not provided and also not available in game! Leaving blank....')
         game_args = [
-            {'tournament': self.event},
+            {'tournament': self.tournament},
             {'patch': patch or self.patch},
             {'winner': 1 if game['winner'] == 'BLUE' else 2},
             {'gamelength': self.get_duration(game['duration']) if 'duration' in game else None},
