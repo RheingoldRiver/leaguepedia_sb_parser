@@ -59,9 +59,11 @@ class Parser(object):
     
     def determine_teams_from_game_1(self, series):
         game = series['games'][0]
+        blue = game['teams']['BLUE']['name']
+        red = game['teams']['RED']['name']
         ret = [
-            self.get_final_team_name(game['teams']['BLUE']['name']),
-            self.get_final_team_name(game['teams']['RED']['name']),
+            self.get_final_team_name(blue) or blue,
+            self.get_final_team_name(red) or red,
         ]
         return ret
     
@@ -71,10 +73,7 @@ class Parser(object):
         return self.site.cache.get_team_from_event_tricode(self.event, team_name)
     
     def make_match_header(self, teams: list):
-        return self.HEADER_TEXT.format(
-            self.get_final_team_name(teams[0]) or teams[0],
-            self.get_final_team_name(teams[1]) or teams[1]
-        )
+        return self.HEADER_TEXT.format(teams[0], teams[1])
     
     def parse_one_game(self, game, url):
         return self.GAME_TEXT.format(
