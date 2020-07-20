@@ -61,6 +61,10 @@ class Parser(object):
         game = series['games'][0]
         blue = game['teams']['BLUE']['name']
         red = game['teams']['RED']['name']
+        # we don't have to warn here if we're falling back to using just the tricode
+        # because we warn in the game later on
+        # the game is the correct place for the warning because the header is optional
+        # (it's possible the user says this is game 2 or whatever)
         ret = [
             self.get_final_team_name(blue) or blue,
             self.get_final_team_name(red) or red,
