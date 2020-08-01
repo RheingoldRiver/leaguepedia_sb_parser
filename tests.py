@@ -7,12 +7,13 @@ from lol_esports_parser import get_riot_game
 credentials = AuthCredentials(user_file="me")
 site = EsportsClient('lol', credentials=credentials)
 
-riot_parser = RiotParser(site, 'GUL 2020 Closing Playoffs')
-# chinese_parser = ChineseParser(site, 'LPL/2020 Season/Summer Season')
+# riot_parser = RiotParser(site, 'GUL 2020 Closing Playoffs')
+chinese_parser = ChineseParser(site, 'LPL/2020 Season/Summer Season', patch="10.15.1")
 
-print(riot_parser.parse_series(['https://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT01/1434268?gameHash=6a9d4306ee294f85&tab=overview']))
+# print(riot_parser.parse_series(['https://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT01/1434268?gameHash=6a9d4306ee294f85&tab=overview']))
 
-# print(chinese_parser.parse_series('https://www.wanplus.com/schedule/63545.html'))
+print(chinese_parser.parse_series('6639'))
 
-with open('data.txt', 'w') as f:
-    f.write(str(get_riot_game('https://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT01/1434268?gameHash=6a9d4306ee294f85&tab=overview', get_timeline=True, add_names=True)))
+# with open('data.txt', 'w') as f:
+#     f.write(str(get_riot_game('https://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT01/1434268?gameHash=6a9d4306ee294f85&tab=overview', get_timeline=True, add_names=True)))
+

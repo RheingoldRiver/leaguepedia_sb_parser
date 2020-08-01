@@ -18,7 +18,7 @@ class ChineseParser(Parser):
             series = get_chinese_series(match_id)
         except Exception as e:
             self.warnings.append(str(e))
-            series = get_qq_series(match_id)
+            series = get_qq_series('https://lpl.qq.com/es/stats.shtml?bmid=' + str(match_id))
         teams = self.determine_teams_from_game_1(series)
         output_parts = []
         if include_header:
