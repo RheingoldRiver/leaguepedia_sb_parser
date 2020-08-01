@@ -1,6 +1,7 @@
 import re
 from leaguepedia_sb_parser.parser import Parser
 from lol_esports_parser import get_chinese_series
+from lol_esports_parser import get_qq_series
 
 
 class ChineseParser(Parser):
@@ -13,7 +14,11 @@ class ChineseParser(Parser):
             match_id = match_id[0]
         if isinstance(match_id, str):
             match_id = int(match_id)
-        series = get_chinese_series(match_id)
+        try:
+            series = get_chinese_series(match_id)
+        except Exception as e:
+            self.warnings.append(str(e))
+            series = get_qq_series(match_id)
         teams = self.determine_teams_from_game_1(series)
         output_parts = []
         if include_header:
@@ -26,7 +31,7 @@ class ChineseParser(Parser):
         pass
 
     def get_player_ingame_name(self, ingame_name, team_name):
-        return re.sub(r'^' + team_name, '', ingame_name)
+        return re.sub(r'^' + team_name, '', ingame_name.strip())
     
     @staticmethod
     def qq_url(match_id):
