@@ -16,4 +16,3 @@ print(chinese_parser.parse_series('6639'))
 
 # with open('data.txt', 'w') as f:
 #     f.write(str(get_riot_game('https://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT01/1434268?gameHash=6a9d4306ee294f85&tab=overview', get_timeline=True, add_names=True)))
-
