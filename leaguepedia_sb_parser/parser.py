@@ -19,6 +19,8 @@ class Parser(object):
     
     RUNES_TEXT = '\n|runes={{{{Scoreboard/Player/Runes|{}}}}}'
     
+    MAX_BANS = 5
+    
     def __init__(self, site: EsportsClient, event: str, patch: str = None):
         # patch could be an empty string if it's from a cookie
         # handle it here because there's branching changes in flask
@@ -57,9 +59,14 @@ class Parser(object):
         return ret
     
     @staticmethod
-    def list_args(args: list, param_prefix: str):
+    def list_args(args: list, param_prefix: str, expected_len=None):
         if args is None:
-            return None
+            if expected_len is None:
+                return None
+            ret = ''
+            for i in range(expected_len):
+                ret = ret + '|{}{}= '.format(param_prefix, str(i + 1))
+            return ret
         ret = ''
         for i, arg in enumerate(args):
             ret = ret + '|{}{}= {}'.format(param_prefix, str(i + 1), arg)
@@ -138,7 +145,11 @@ class Parser(object):
             team_key = 'team{}'.format(str(i + 1))
             ret.append(self.TEAM_TEXT.format(
                 self.concat_args(self.extract_team_args(game['teams'][team], team_key)),
-                self.list_args(game['teams'][team].get('bansNames'), '{}ban'.format(team_key)),
+                self.list_args(
+                    game['teams'][team].get('bansNames'),
+                    '{}ban'.format(team_key),
+                    expected_len=self.MAX_BANS
+                ),
                 self.parse_players(team.lower(), game['teams'][team])
             ))
         return '\n'.join(ret)
