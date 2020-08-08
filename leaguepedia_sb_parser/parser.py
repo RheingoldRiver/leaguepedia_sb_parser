@@ -9,7 +9,6 @@ class Parser(object):
     
     GAME_TEXT = '{{{{MatchRecapS8{}\n{}}}}}'
     
-    TEAMS = ['BLUE', 'RED']
     TEAM_KEYS = {'team1': 0, 'team2': 1}
     
     # team args, team bans, player args
