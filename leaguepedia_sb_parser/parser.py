@@ -9,6 +9,7 @@ class Parser(object):
     GAME_TEXT = '{{{{MatchRecapS8{}\n{}}}}}'
     
     TEAMS = ['BLUE', 'RED']
+    TEAM_KEYS = {'team1': 0, 'team2': 1}
     
     # team args, team bans, player args
     TEAM_TEXT = '{}{}\n{}'
@@ -28,6 +29,7 @@ class Parser(object):
         self.tournament = event
         self.event = site.target(event)
         self.warnings = []
+        self.teams = []
     
     def clear_warnings(self):
         self.warnings = []
@@ -56,30 +58,35 @@ class Parser(object):
         for i, arg in enumerate(args):
             ret = ret + '|{}{}= {}'.format(param_prefix, str(i + 1), arg)
         return ret
-    
-    def determine_teams_from_game_1(self, series):
-        game = series['games'][0]
+
+    def populate_teams(self, game, url):
         blue = game['teams']['BLUE'].get('name')
         red = game['teams']['RED'].get('name')
-        if blue is None and red is None:
-            return [None, None]
-        # we don't have to warn here if we're falling back to using just the tricode
-        # because we warn in the game later on
-        # the game is the correct place for the warning because the header is optional
-        # (it's possible the user says this is game 2 or whatever)
-        ret = [
-            self.get_final_team_name(blue) or blue,
-            self.get_final_team_name(red) or red,
+        if blue is None or red is None:
+            self.determine_teams_from_wiki(url)
+            return
+        self.teams = [
+            self.get_final_team_name(blue, 'blue') or blue,
+            self.get_final_team_name(red, 'red') or red,
         ]
-        return ret
     
-    def get_final_team_name(self, team_name):
-        if team_name is None:
-            return None
-        return self.site.cache.get_team_from_event_tricode(self.event, team_name)
+    def get_final_team_name(self, team_name, team_key):
+        result = self.site.cache.get_team_from_event_tricode(self.event, team_name)
+        if result is None:
+            # could be None either (a) because cannot find the team name
+            # or (b) because it's live server and actually the original name is None and then gg us
+            self.warnings.append(
+                'Final team name for {} is missing (original: {})'.format(
+                    team_key, team_name
+                )
+            )
+        return result
     
-    def make_match_header(self, teams: list):
-        return self.HEADER_TEXT.format(teams[0] or '', teams[1] or '')
+    def determine_teams_from_wiki(self, url):
+        pass
+    
+    def make_match_header(self):
+        return self.HEADER_TEXT.format(self.teams[0] or '', self.teams[1] or '')
     
     def parse_one_game(self, game, url):
         return self.GAME_TEXT.format(
@@ -128,17 +135,8 @@ class Parser(object):
         return '\n'.join(ret)
     
     def extract_team_args(self, team, team_key):
-        team_name = self.get_final_team_name(team.get('name'))
-        if team_name is None:
-            # could be None either (a) because cannot find the team name
-            # or (b) because it's live server and actually the original name is None and then gg us
-            self.warnings.append(
-                'Final team name for {} is missing (original: {})'.format(
-                    team_key, team.get('name') or team_key
-                )
-            )
         team_args = [
-            {team_key + '': team_name or team.get('name')},
+            {team_key + '': self.teams[self.TEAM_KEYS[team_key]]},
             {team_key + 'g': sum(player['endOfGameStats']['gold'] for player in team['players'])},
             {team_key + 'k': sum(player['endOfGameStats']['kills'] for player in team['players'])},
             {team_key + 'd': team['endOfGameStats'].get('dragonKills')},
