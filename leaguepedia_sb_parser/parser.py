@@ -1,6 +1,7 @@
 import time
 from river_mwclient.esports_client import EsportsClient
 from river_mwclient.wiki_time_parser import time_from_str
+from lol_dto.classes.game import LolGame
 
 
 class Parser(object):
@@ -54,12 +55,14 @@ class Parser(object):
     
     @staticmethod
     def list_args(args: list, param_prefix: str):
+        if args is None:
+            return None
         ret = ''
         for i, arg in enumerate(args):
             ret = ret + '|{}{}= {}'.format(param_prefix, str(i + 1), arg)
         return ret
 
-    def populate_teams(self, game, url=None):
+    def populate_teams(self, game: LolGame, url=None):
         blue = game['teams']['BLUE'].get('name')
         red = game['teams']['RED'].get('name')
         if blue is None or red is None:
@@ -91,7 +94,7 @@ class Parser(object):
     def make_match_header(self):
         return self.HEADER_TEXT.format(self.teams[0] or '', self.teams[1] or '')
     
-    def parse_one_game(self, game, url):
+    def parse_one_game(self, game: LolGame, url):
         return self.GAME_TEXT.format(
             self.concat_args(self.extract_game_args(game, url)),
             self.parse_teams(game)
@@ -128,11 +131,11 @@ class Parser(object):
     
     def parse_teams(self, game):
         ret = []
-        for i, team in enumerate(self.TEAMS):
+        for i, team in enumerate(game['teams']):
             team_key = 'team{}'.format(str(i + 1))
             ret.append(self.TEAM_TEXT.format(
                 self.concat_args(self.extract_team_args(game['teams'][team], team_key)),
-                self.list_args(game['teams'][team]['bansNames'], '{}ban'.format(team_key)),
+                self.list_args(game['teams'][team].get('bansNames'), '{}ban'.format(team_key)),
                 self.parse_players(team.lower(), game['teams'][team])
             ))
         return '\n'.join(ret)
