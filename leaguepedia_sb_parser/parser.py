@@ -29,6 +29,10 @@ class Parser(object):
         self.tournament = event
         self.event = site.target(event)
         self.warnings = []
+        
+        # this is the only case of a thing we need to keep track of separate from just generating the sb string
+        # it has to be used to generate the heading
+        # so even though this really doesn't belong here let's just, allow it ok sorry
         self.teams = []
     
     def clear_warnings(self):
