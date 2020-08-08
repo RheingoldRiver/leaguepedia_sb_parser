@@ -128,7 +128,7 @@ class Parser(object):
         return '\n'.join(ret)
     
     def extract_team_args(self, team, team_key):
-        team_name = self.get_final_team_name(team['name'])
+        team_name = self.get_final_team_name(team.get('name'))
         if team_name is None:
             self.warnings.append('Final team name for {} is missing (original: {})'.format(team_key, team['name']))
         team_args = [
