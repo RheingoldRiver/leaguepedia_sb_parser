@@ -59,8 +59,10 @@ class Parser(object):
     
     def determine_teams_from_game_1(self, series):
         game = series['games'][0]
-        blue = game['teams']['BLUE']['name']
-        red = game['teams']['RED']['name']
+        blue = game['teams']['BLUE'].get('name')
+        red = game['teams']['RED'].get('name')
+        if blue is None and red is None:
+            return [None, None]
         # we don't have to warn here if we're falling back to using just the tricode
         # because we warn in the game later on
         # the game is the correct place for the warning because the header is optional
