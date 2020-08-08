@@ -184,15 +184,7 @@ class Parser(object):
         if player.get('inGameName') is not None and player_name is None or player_name == '':
             self.warnings.append('Player name cannot be parsed, using full name of {}'.format(player.get('inGameName')))
             player_name = player.get('inGameName')
-        disambiguated_name = self.site.cache.get_disambiguated_player_from_event(
-            self.event,
-            self.site.cache.get_team_from_event_tricode(self.event, team.get('name')),
-            player_name
-        )
-        if disambiguated_name is None:
-            warning = 'Disambiguated name for {} couldn\'t be found, perhaps player is missing from participants!'
-            self.warnings.append(warning.format(player_name))
-            disambiguated_name = player_name
+        disambiguated_name = self.get_disambiguated_name(player_name, team)
         player_args = [
             {'link': disambiguated_name},
             {'champion': player['championName']},
@@ -218,3 +210,17 @@ class Parser(object):
     
     def get_player_ingame_name(self, ingame_name, team_name):
         pass
+    
+    def get_disambiguated_name(self, player_name, team):
+        if player_name is None:
+            return None
+        result = self.site.cache.get_disambiguated_player_from_event(
+            self.event,
+            self.site.cache.get_team_from_event_tricode(self.event, team.get('name')),
+            player_name
+        )
+        if result is not None:
+            return result
+        warning = 'Disambiguated name for {} couldn\'t be found, perhaps player is missing from participants!'
+        self.warnings.append(warning.format(player_name))
+        return player_name
