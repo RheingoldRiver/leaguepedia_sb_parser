@@ -138,7 +138,7 @@ class Parser(object):
                 )
             )
         team_args = [
-            {team_key + '': team_name or team['name']},
+            {team_key + '': team_name or team.get('name')},
             {team_key + 'g': sum(player['endOfGameStats']['gold'] for player in team['players'])},
             {team_key + 'k': sum(player['endOfGameStats']['kills'] for player in team['players'])},
             {team_key + 'd': team['endOfGameStats'].get('dragonKills')},
@@ -180,13 +180,13 @@ class Parser(object):
         return '\n'.join(ret)
     
     def extract_player_args(self, player, team):
-        player_name = self.get_player_ingame_name(player['inGameName'], team['name'])
+        player_name = self.get_player_ingame_name(player['inGameName'], team.get('name'))
         if player_name is None or player_name == '':
             self.warnings.append('Player name cannot be parsed, using full name of {}'.format(player['inGameName']))
             player_name = player['inGameName']
         disambiguated_name = self.site.cache.get_disambiguated_player_from_event(
             self.event,
-            self.site.cache.get_team_from_event_tricode(self.event, team['name']),
+            self.site.cache.get_team_from_event_tricode(self.event, team.get('name')),
             player_name
         )
         if disambiguated_name is None:
