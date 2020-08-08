@@ -20,4 +20,6 @@ class RiotParser(Parser):
         return self.parse_one_game(game, url)
     
     def get_player_ingame_name(self, ingame_name, team_name):
+        if ingame_name is None:
+            return None
         return ' '.join(ingame_name.strip().split(' ')[1:])
