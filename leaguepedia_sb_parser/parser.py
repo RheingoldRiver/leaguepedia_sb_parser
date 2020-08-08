@@ -180,10 +180,10 @@ class Parser(object):
         return '\n'.join(ret)
     
     def extract_player_args(self, player, team):
-        player_name = self.get_player_ingame_name(player['inGameName'], team.get('name'))
-        if player_name is None or player_name == '':
-            self.warnings.append('Player name cannot be parsed, using full name of {}'.format(player['inGameName']))
-            player_name = player['inGameName']
+        player_name = self.get_player_ingame_name(player.get('inGameName'), team.get('name'))
+        if player.get('inGameName') is not None and player_name is None or player_name == '':
+            self.warnings.append('Player name cannot be parsed, using full name of {}'.format(player.get('inGameName')))
+            player_name = player.get('inGameName')
         disambiguated_name = self.site.cache.get_disambiguated_player_from_event(
             self.event,
             self.site.cache.get_team_from_event_tricode(self.event, team.get('name')),
