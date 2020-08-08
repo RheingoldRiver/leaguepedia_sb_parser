@@ -130,7 +130,13 @@ class Parser(object):
     def extract_team_args(self, team, team_key):
         team_name = self.get_final_team_name(team.get('name'))
         if team_name is None:
-            self.warnings.append('Final team name for {} is missing (original: {})'.format(team_key, team['name']))
+            # could be None either (a) because cannot find the team name
+            # or (b) because it's live server and actually the original name is None and then gg us
+            self.warnings.append(
+                'Final team name for {} is missing (original: {})'.format(
+                    team_key, team.get('name') or team_key
+                )
+            )
         team_args = [
             {team_key + '': team_name or team['name']},
             {team_key + 'g': sum(player['endOfGameStats']['gold'] for player in team['players'])},
