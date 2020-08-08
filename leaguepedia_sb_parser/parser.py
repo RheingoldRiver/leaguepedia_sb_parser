@@ -65,6 +65,8 @@ class Parser(object):
         if blue is None or red is None:
             if url is not None:
                 self.determine_teams_from_wiki(url)
+            else:
+                self.teams = [None, None]
             return
         self.teams = [
             self.get_final_team_name(blue, 'blue') or blue,
@@ -84,7 +86,7 @@ class Parser(object):
         return result
     
     def determine_teams_from_wiki(self, url):
-        pass
+        self.teams = [None, None]
     
     def make_match_header(self):
         return self.HEADER_TEXT.format(self.teams[0] or '', self.teams[1] or '')
