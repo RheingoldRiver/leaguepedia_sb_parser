@@ -79,7 +79,7 @@ class Parser(object):
         return self.site.cache.get_team_from_event_tricode(self.event, team_name)
     
     def make_match_header(self, teams: list):
-        return self.HEADER_TEXT.format(teams[0], teams[1])
+        return self.HEADER_TEXT.format(teams[0] or '', teams[1] or '')
     
     def parse_one_game(self, game, url):
         return self.GAME_TEXT.format(
