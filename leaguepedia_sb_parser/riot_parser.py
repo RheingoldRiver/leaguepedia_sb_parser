@@ -9,7 +9,7 @@ class RiotParser(Parser):
         series = get_riot_series(urls, get_timeline=True, add_names=True)
         output_parts = []
         for i, game in enumerate(series['games']):
-            self.populate_teams(game, urls[i])
+            self.populate_teams(game, url=urls[i])
             output_parts.append(self.parse_one_game(game, urls[i]))
         if include_header:
             output_parts.insert(0, self.make_match_header())

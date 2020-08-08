@@ -59,11 +59,12 @@ class Parser(object):
             ret = ret + '|{}{}= {}'.format(param_prefix, str(i + 1), arg)
         return ret
 
-    def populate_teams(self, game, url):
+    def populate_teams(self, game, url=None):
         blue = game['teams']['BLUE'].get('name')
         red = game['teams']['RED'].get('name')
         if blue is None or red is None:
-            self.determine_teams_from_wiki(url)
+            if url is not None:
+                self.determine_teams_from_wiki(url)
             return
         self.teams = [
             self.get_final_team_name(blue, 'blue') or blue,

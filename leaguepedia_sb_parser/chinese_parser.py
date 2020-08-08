@@ -19,12 +19,12 @@ class ChineseParser(Parser):
         except Exception as e:
             self.warnings.append(str(e))
             series = get_qq_series(self.qq_url(match_id))
-        teams = self.determine_teams_from_game_1(series)
         output_parts = []
-        if include_header:
-            output_parts.append(self.make_match_header(teams))
         for i, game in enumerate(series['games']):
+            self.populate_teams(game)
             output_parts.append(self.parse_one_game(game, self.qq_url(match_id)))
+        if include_header:
+            output_parts.insert(0, self.make_match_header())
         return '\n'.join(output_parts)
     
     def parse_game(self, url):
