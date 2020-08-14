@@ -133,7 +133,9 @@ class Parser(object):
     
     def get_resolved_patch(self, patch):
         if self.patch != patch:
-            self.warnings.append('Provided patch doesn\'t match ingame patch!! Provided: {}, ingame {}. We used provided.'.format(self.patch, patch))
+            self.warnings.append(
+                'Provided patch doesn\'t match ingame patch!! Provided: {}, ingame {}. We used provided.'.format(
+                    self.patch, patch))
         return patch
     
     @staticmethod

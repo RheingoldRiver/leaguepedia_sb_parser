@@ -21,3 +21,6 @@ class MultiParser(object):
                                                    include_header=include_header))
         
         return self.start + self.between.join(output) + self.end
+    
+    def get_warnings(self):
+        return self.parser.warnings
