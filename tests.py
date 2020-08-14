@@ -5,6 +5,7 @@ from river_mwclient.auth_credentials import AuthCredentials
 from lol_esports_parser import get_riot_game
 from lol_esports_parser import get_wp_series
 from lol_esports_parser import get_qq_series
+import logging
 
 credentials = AuthCredentials(user_file="me")
 site = EsportsClient('lol', credentials=credentials)
@@ -18,7 +19,8 @@ site = EsportsClient('lol', credentials=credentials)
 
 with open('data.txt', 'w') as f:
     f.write(str(get_qq_series(
-        'https://lpl.qq.com/es/stats.shtml?bmid=6131',
+        'https://lpl.qq.com/es/stats.shtml?bmid=6681',
         # get_timeline=True,
-        add_names=True
+        add_names=True,
+        patch="10.16"
     )))
