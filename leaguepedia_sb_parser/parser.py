@@ -114,8 +114,7 @@ class Parser(object):
         timestamp = time_from_str(game['start'])
         patch = game.get('patch')
         if self.patch is not None and patch is not None:
-            self.warnings.append('Patch provided, but also available in game! Using provided patch....')
-            patch = self.patch
+            patch = self.get_resolved_patch(patch)
         if self.patch is None and patch is None:
             self.warnings.append('Patch is not provided and also not available in game! Leaving blank....')
         game_args = [
@@ -131,6 +130,11 @@ class Parser(object):
             {'vodlink': ''},
         ]
         return game_args
+    
+    def get_resolved_patch(self, patch):
+        if self.patch != patch:
+            self.warnings.append('Provided patch doesn\'t match ingame patch!! Provided: {}, ingame {}. We used provided.'.format(self.patch, patch))
+        return patch
     
     @staticmethod
     def get_duration(duration):

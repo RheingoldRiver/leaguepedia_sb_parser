@@ -33,6 +33,10 @@ class ChineseParser(Parser):
     def get_player_ingame_name(self, ingame_name, team_name):
         return re.sub(r'^' + team_name, '', ingame_name.strip())
     
+    def get_resolved_patch(self, patch):
+        # whatever we get from the game is gonna be completely garbage
+        return self.patch
+    
     @staticmethod
     def qq_url(match_id):
         return "https://lpl.qq.com/es/stats.shtml?bmid={}".format(str(match_id))
