@@ -134,7 +134,7 @@ class Parser(object):
     def get_resolved_patch(self, patch):
         if self.patch != patch:
             self.warnings.append(
-                'Provided patch doesn\'t match ingame patch!! Provided: {}, ingame {}. We used ingame but please fix the wiki!'.format(
+                'MatchSchedule patch doesn\'t match actual (match history) patch!! MS: {}, ingame {}. We used mh but please fix the wiki!'.format(
                     self.patch, patch))
         return patch
     
