@@ -6,7 +6,7 @@ from lol_esports_parser import get_qq_series
 
 class ChineseParser(Parser):
     
-    def parse_series(self, match_id, include_header=True):
+    def parse_series(self, match_id, include_header=True, patch=None):
         # allow to be compatible with receiving data from multi_series_parser
         # which will just blindly split by newlines and return lists
         # easier to correct here than to add correction to both this and riot_parser i guess
@@ -15,7 +15,7 @@ class ChineseParser(Parser):
         if isinstance(match_id, str):
             match_id = int(match_id)
         try:
-            series = get_chinese_series(match_id)
+            series = get_chinese_series(match_id, patch=patch)
         except Exception as e:
             self.warnings.append(str(e))
             series = get_qq_series(self.qq_url(match_id))
