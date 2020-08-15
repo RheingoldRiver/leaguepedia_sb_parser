@@ -7,7 +7,7 @@ from lol_dto.classes.game import LolGame
 class Parser(object):
     HEADER_TEXT = "{{{{MatchRecapS8/Header|{}|{}}}}}"
     
-    GAME_TEXT = '{{{{MatchRecapS8{}\n{}}}}}'
+    GAME_TEXT = '{{{{MatchRecapS8{}\n{}\n}}}}'
     
     TEAM_KEYS = {'team1': 0, 'team2': 1}
     
