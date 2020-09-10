@@ -18,7 +18,7 @@ class ChineseParser(Parser):
             series = get_chinese_series(match_id, patch=self.patch)
         except Exception as e:
             self.warnings.append(str(e))
-            series = get_qq_series(self.qq_url(match_id))
+            series = get_qq_series(self.qq_url(match_id), patch=self.patch)
         output_parts = []
         for i, game in enumerate(series['games']):
             self.populate_teams(game)
