@@ -1,4 +1,4 @@
-import time
+import math
 from river_mwclient.esports_client import EsportsClient
 from river_mwclient.wiki_time_parser import time_from_str
 from lol_dto.classes.game import LolGame
@@ -143,8 +143,12 @@ class Parser(object):
     def get_duration(duration):
         if duration is None:
             return None
-        # format hh:mm:ss and then strip leading 0's for games under 1 hour (aka most games)
-        return time.strftime('%H:%M:%S', time.gmtime(duration)).replace('00:', '')
+        
+        # this is how we'd do it if we wanted HH:MM:SS
+        # return time.strftime('%H:%M:%S', time.gmtime(duration)).replace('00:', '')
+        
+        # but actually we need MM:SS no matter if there were a total number of hours or not
+        return '{}:{}'.format(str(math.floor(duration / 60)), str(duration % 60))
     
     def parse_teams(self, game):
         ret = []
