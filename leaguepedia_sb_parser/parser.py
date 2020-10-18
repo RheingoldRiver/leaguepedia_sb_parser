@@ -148,7 +148,7 @@ class Parser(object):
         # return time.strftime('%H:%M:%S', time.gmtime(duration)).replace('00:', '')
         
         # but actually we need MM:SS no matter if there were a total number of hours or not
-        return '{}:{}'.format(str(math.floor(duration / 60)), str(duration % 60))
+        return '{}:{}'.format(str(math.floor(duration / 60)), str(duration % 60).zfill(2))
     
     def parse_teams(self, game):
         ret = []

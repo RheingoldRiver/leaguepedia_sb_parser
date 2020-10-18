@@ -12,7 +12,7 @@ credentials = AuthCredentials(user_file="me")
 site = EsportsClient('lol', credentials=credentials)
 
 riot_parser = RiotParser(site, 'GUL 2020 Closing Playoffs')
-print(riot_parser.parse_series(['https://matchhistory.euw.leagueoflegends.com/de/#match-details/EUW1/4868679293']))
+print(riot_parser.parse_series(['http://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT03/1532710?gameHash=31ec0cdc04907462']))
 
 multi_parser = MultiParser(riot_parser)
 
