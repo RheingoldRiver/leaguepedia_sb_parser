@@ -15,7 +15,7 @@ class Parser(object):
     TEAM_TEXT = '{}{}\n{}'
     
     # |{blue}{1}={args}{items}{runes}
-    PLAYER_TEXT = '|{}{}={{{{MatchRecapS8/Player{}{}{}}}}}'
+    PLAYER_TEXT = '|{}{}={{{{Scoreboard/Player{}{}{}}}}}'
     
     RUNES_TEXT = '\n|runes={{{{Scoreboard/Player/Runes|{}}}}}'
     
