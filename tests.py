@@ -16,7 +16,7 @@ print(riot_parser.parse_series(['http://matchhistory.na.leagueoflegends.com/en/#
 
 multi_parser = MultiParser(riot_parser)
 
-# multi_parser.parse_multi_series('https://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT01/1423603?gameHash=c67872b8e8b05e51&tab=overview\nhttps://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT01/1423603?gameHash=c67872b8e8b05e51&tab=overview')
+multi_parser.parse_multi_series('https://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT01/1423603?gameHash=c67872b8e8b05e51&tab=overview\nhttps://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT01/1423603?gameHash=c67872b8e8b05e51&tab=overview')
 
 # print('<br>'.join(riot_parser.warnings))
 
@@ -24,10 +24,10 @@ multi_parser = MultiParser(riot_parser)
 # chinese_parser = ChineseParser(site, 'LPL/2020 Season/Summer Season', patch="10.15.1")
 # print(chinese_parser.parse_series('6639'))
 
-with open('data.txt', 'w') as f:
-    f.write(str(get_riot_game(
-        'https://matchhistory.euw.leagueoflegends.com/de/#match-details/EUW1/4868679293',
-        # get_timeline=True,
-        add_names=True,
-        # patch="10.16"
-    )))
+# with open('data.txt', 'w') as f:
+#     f.write(str(get_riot_game(
+#         'https://matchhistory.euw.leagueoflegends.com/de/#match-details/EUW1/4868679293',
+#         # get_timeline=True,
+#         add_names=True,
+#         # patch="10.16"
+#     )))

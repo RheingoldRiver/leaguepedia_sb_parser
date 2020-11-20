@@ -2,6 +2,7 @@ import re
 from leaguepedia_sb_parser.parser import Parser
 from lol_esports_parser import get_chinese_series
 from lol_esports_parser import get_qq_series
+from lol_esports_parser import get_wp_series
 
 
 class ChineseParser(Parser):
@@ -14,11 +15,14 @@ class ChineseParser(Parser):
             match_id = match_id[0]
         if isinstance(match_id, str):
             match_id = int(match_id)
-        try:
-            series = get_chinese_series(match_id, patch=self.patch)
-        except Exception as e:
-            self.warnings.append(str(e))
-            series = get_qq_series(self.qq_url(match_id), patch=self.patch)
+        if len(str(match_id)) == 5:
+            series = get_wp_series(self.wp_url(match_id), patch=self.patch)
+        else:
+            try:
+                series = get_chinese_series(match_id, patch=self.patch)
+            except Exception as e:
+                self.warnings.append(str(e))
+                series = get_qq_series(self.qq_url(match_id), patch=self.patch)
         output_parts = []
         for i, game in enumerate(series['games']):
             self.populate_teams(game)
@@ -40,3 +44,7 @@ class ChineseParser(Parser):
     @staticmethod
     def qq_url(match_id):
         return "https://lpl.qq.com/es/stats.shtml?bmid={}".format(str(match_id))
+
+    @staticmethod
+    def wp_url(match_id):
+        return "https://www.wanplus.com/schedule/{}.html".format(str(match_id))
