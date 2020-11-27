@@ -199,7 +199,7 @@ class Parser(object):
                 self.concat_args(self.extract_player_args(player, team)),
                 self.list_args(
                     # don't include the last item because that's actually the trinket
-                    [item['name'] for item in team['players'][i]['endOfGameStats']['items'][:-1]],
+                    [item['name'] or item['id'] for item in team['players'][i]['endOfGameStats']['items'][:-1]],
                     'item'
                 ),
                 self.RUNES_TEXT.format(
