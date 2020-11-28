@@ -211,7 +211,7 @@ class Parser(object):
     @staticmethod
     def get_item_name(item):
         if item['id'] == 0:
-            return None
+            return ''
         return item['name'] or item['id']
 
     def extract_player_args(self, player, team):
