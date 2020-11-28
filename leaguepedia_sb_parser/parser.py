@@ -199,7 +199,7 @@ class Parser(object):
                 self.concat_args(self.extract_player_args(player, team)),
                 self.list_args(
                     # don't include the last item because that's actually the trinket
-                    [item['name'] or item['id'] for item in team['players'][i]['endOfGameStats']['items'][:-1]],
+                    [self.get_item_name(item) for item in team['players'][i]['endOfGameStats']['items'][:-1]],
                     'item'
                 ),
                 self.RUNES_TEXT.format(
@@ -207,7 +207,13 @@ class Parser(object):
                 ) if 'runes' in player else ''
             ))
         return '\n'.join(ret)
-    
+
+    @staticmethod
+    def get_item_name(item):
+        if item['id'] == 0:
+            return None
+        return item['name'] or item['id']
+
     def extract_player_args(self, player, team):
         player_name = self.get_player_ingame_name(player.get('inGameName'), team.get('name'))
         if player.get('inGameName') is not None and player_name is None or player_name == '':
