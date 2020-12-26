@@ -2,6 +2,7 @@ import math
 from river_mwclient.esports_client import EsportsClient
 from river_mwclient.wiki_time_parser import time_from_str
 from lol_dto.classes.game import LolGame
+import lol_id_tools
 
 
 class Parser(object):
@@ -45,7 +46,7 @@ class Parser(object):
     
     def parse_game(self, url):
         pass
-    
+
     @staticmethod
     def concat_args(lookup: list):
         ret = ''
@@ -106,11 +107,17 @@ class Parser(object):
         return self.HEADER_TEXT.format(self.teams[0] or '', self.teams[1] or '')
     
     def parse_one_game(self, game: LolGame, url):
+        self.init_lol_id_tools()
         return self.GAME_TEXT.format(
             self.concat_args(self.extract_game_args(game, url)),
             self.parse_teams(game)
         )
-    
+
+    @staticmethod
+    def init_lol_id_tools():
+        """Deal with the race condition"""
+        lol_id_tools.get_name(85, object_type="champion")
+
     def extract_game_args(self, game, url):
         timestamp = time_from_str(game['start'])
         patch = game.get('patch')
