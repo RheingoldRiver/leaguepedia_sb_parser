@@ -11,14 +11,10 @@ import logging
 credentials = AuthCredentials(user_file="me")
 site = EsportsClient('lol', credentials=credentials)
 
-riot_parser = RiotParser(site, 'VCS 2021 Spring Promotion')
-print(riot_parser.parse_series([
-    'https://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT03/1590337?gameHash=f0dd0401cf276abb&tab=overview',
-    'https://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT03/1590340?gameHash=d29bfbea902745e1&tab=overview',
-    'https://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT03/1590341?gameHash=06e785282865e28f&tab=overview',
-    'https://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT03/1590342?gameHash=4d603670179c47ea&tab=overview',
-    'https://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT03/1590343?gameHash=316584b95a0d39e3&tab=overview'
-]))
+# riot_parser = RiotParser(site, 'PG Nationals/2021 Season/Spring Season')
+# print(riot_parser.parse_series([
+#     'https://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT02/1640233?gameHash=123c1e1cd8645d1e&tab=overview'
+# ]))
 #
 # multi_parser = MultiParser(riot_parser)
 #
@@ -27,12 +23,12 @@ print(riot_parser.parse_series([
 # print('<br>'.join(riot_parser.warnings))
 
 
-# chinese_parser = ChineseParser(site, event='National Electronic Sports Tournament 2020', patch='10.19')
-# print(chinese_parser.parse_series('66588'))
+chinese_parser = ChineseParser(site, event='LPL 2020 Spring', patch='11.1')
+print(chinese_parser.parse_series('6936'))
 
 # with open('data.txt', 'w') as f:
 #     f.write(str(get_riot_game(
-#         'https://matchhistory.euw.leagueoflegends.com/de/#match-details/EUW1/4868679293',
+#         'https://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT02/1611575?gameHash=7cfc8b40c5243474&tab=overview',
 #         # get_timeline=True,
 #         add_names=True,
 #         # patch="10.16"
