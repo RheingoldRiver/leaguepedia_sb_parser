@@ -7,21 +7,21 @@ import lol_id_tools
 
 class Parser(object):
     HEADER_TEXT = "{{{{Scoreboard/Header|{}|{}}}}}"
-    
+
     GAME_TEXT = '{{{{Scoreboard/Season 8{}\n{}\n}}}}'
-    
+
     TEAM_KEYS = {'team1': 0, 'team2': 1}
-    
+
     # team args, team bans, player args
     TEAM_TEXT = '{}{}\n{}'
-    
+
     # |{blue}{1}={args}{items}{runes}
     PLAYER_TEXT = '|{}{}={{{{Scoreboard/Player{}{}{}}}}}'
-    
+
     RUNES_TEXT = '\n|runes={{{{Scoreboard/Player/Runes|{}}}}}'
-    
+
     MAX_BANS = 5
-    
+
     def __init__(self, site: EsportsClient, event: str, patch: str = None):
         # patch could be an empty string if it's from a cookie
         # handle it here because there's branching changes in flask
@@ -32,18 +32,18 @@ class Parser(object):
         self.tournament = event
         self.event = site.target(event)
         self.warnings = []
-        
+
         # this is the only case of a thing we need to keep track of separate from just generating the sb string
         # it has to be used to generate the heading
         # so even though this really doesn't belong here let's just, allow it ok sorry
         self.teams = []
-    
+
     def clear_warnings(self):
         self.warnings = []
-    
+
     def parse_series(self, urls: list, include_header=True):
         pass
-    
+
     def parse_game(self, url):
         pass
 
@@ -58,7 +58,7 @@ class Parser(object):
                 else:
                     ret = ret + '|{}= {} '.format(key, str(pair[key]))
         return ret
-    
+
     @staticmethod
     def list_args(args: list, param_prefix: str, expected_len=None):
         if args is None:
@@ -86,7 +86,7 @@ class Parser(object):
             self.get_final_team_name(blue, 'blue') or blue,
             self.get_final_team_name(red, 'red') or red,
         ]
-    
+
     def get_final_team_name(self, team_name, team_key):
         result = self.site.cache.get_team_from_event_tricode(self.event, team_name)
         if result is None:
@@ -94,18 +94,19 @@ class Parser(object):
             # or (b) because it's live server and actually the original name is None and then gg us
             self.warnings.append(
                 'Final team name for {} is missing (original: {}) - maybe you have to set |short= in TeamRoster if the \
-                 code differs from what we use in Teamnames'.format(
+                 code differs from what we use in Teamnames. You may also need to RefreshTeamnames or blank edit \
+                the team page'.format(
                     team_key, team_name
                 )
             )
         return result
-    
+
     def determine_teams_from_wiki(self, url):
         self.teams = [None, None]
-    
+
     def make_match_header(self):
         return self.HEADER_TEXT.format(self.teams[0] or '', self.teams[1] or '')
-    
+
     def parse_one_game(self, game: LolGame, url):
         self.init_lol_id_tools()
         return self.GAME_TEXT.format(
@@ -138,25 +139,25 @@ class Parser(object):
             {'vodlink': ''},
         ]
         return game_args
-    
+
     def get_resolved_patch(self, patch):
         if self.patch != patch:
             self.warnings.append(
                 'MatchSchedule patch doesn\'t match actual (match history) patch!! MS: {}, ingame {}. We used mh but please fix the wiki!'.format(
                     self.patch, patch))
         return patch
-    
+
     @staticmethod
     def get_duration(duration):
         if duration is None:
             return None
-        
+
         # this is how we'd do it if we wanted HH:MM:SS
         # return time.strftime('%H:%M:%S', time.gmtime(duration)).replace('00:', '')
-        
+
         # but actually we need MM:SS no matter if there were a total number of hours or not
         return '{}:{}'.format(str(math.floor(duration / 60)), str(duration % 60).zfill(2))
-    
+
     def parse_teams(self, game):
         ret = []
         for i, team in enumerate(game['teams']):
@@ -171,7 +172,7 @@ class Parser(object):
                 self.parse_players(team.lower(), game['teams'][team])
             ))
         return '\n'.join(ret)
-    
+
     def extract_team_args(self, team, team_key):
         team_args = [
             {team_key + '': self.teams[self.TEAM_KEYS[team_key]]},
@@ -189,13 +190,13 @@ class Parser(object):
             {team_key + 'elder': self.team_drake_count(team, "ELDER")},
         ]
         return team_args
-    
+
     @staticmethod
     def team_drake_count(team, dragon_type):
         if 'monstersKills' not in team:
             return None
         return len([_ for _ in team["monstersKills"] if _.get("subType") == dragon_type])
-    
+
     def parse_players(self, side_name, team):
         ret = []
         for i in range(5):
@@ -242,17 +243,17 @@ class Parser(object):
             {'keystone': player['runes'][0]['name'] if 'runes' in player else None},
             {'secondary': player.get('secondaryRuneTreeName')},
             {'trinket': player['endOfGameStats']['items'][6]['name']},
-            
+
             # keep this last so it's consecutive with pentakillvod
             {'pentakills': player['endOfGameStats'].get('pentaKills')},
         ]
         if 'pentaKills' in player['endOfGameStats'] and player['endOfGameStats']['pentaKills'] > 0:
             player_args.append({'pentakillvod': ''})
         return player_args
-    
+
     def get_player_ingame_name(self, ingame_name, team_name):
         pass
-    
+
     def disambiguate_player_name(self, player_name, team):
         if player_name is None:
             return None
