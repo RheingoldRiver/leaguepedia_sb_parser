@@ -1,7 +1,7 @@
 from leaguepedia_sb_parser.riot_parser import RiotParser
 from leaguepedia_sb_parser.chinese_parser import ChineseParser
-from river_mwclient.esports_client import EsportsClient
-from river_mwclient.auth_credentials import AuthCredentials
+from mwcleric.esports_client import EsportsClient
+from mwcleric.auth_credentials import AuthCredentials
 from leaguepedia_sb_parser.multi_series_parser import MultiParser
 
 credentials = AuthCredentials(user_file="me")

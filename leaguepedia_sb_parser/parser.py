@@ -1,6 +1,6 @@
 import math
-from river_mwclient.esports_client import EsportsClient
-from river_mwclient.wiki_time_parser import time_from_str
+from mwcleric.esports_client import EsportsClient
+from mwcleric.wiki_time_parser import time_from_str
 from lol_dto.classes.game import LolGame
 import lol_id_tools
 
