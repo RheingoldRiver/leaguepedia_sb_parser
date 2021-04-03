@@ -1,7 +1,7 @@
 from leaguepedia_sb_parser.riot_parser import RiotParser
 from leaguepedia_sb_parser.chinese_parser import ChineseParser
 from leaguepedia_sb_parser.multi_series_parser import MultiParser
-from mwcleric.esports_client import EsportsClient
+from mwrogue.esports_client import EsportsClient
 from mwcleric.auth_credentials import AuthCredentials
 from lol_esports_parser import get_riot_game
 from lol_esports_parser import get_wp_series
@@ -11,9 +11,9 @@ import logging
 credentials = AuthCredentials(user_file="me")
 site = EsportsClient('lol', credentials=credentials)
 
-riot_parser = RiotParser(site, 'LCO/2021 Season/Split 1')
+riot_parser = RiotParser(site, 'European Masters/2021 Season/Spring Play-In')
 print(riot_parser.parse_series([
-    'https://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT01/1800353?gameHash=d2a27c397d4bb2e5&tab=overview'
+    'https://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT06/1690220?gameHash=fae16c1ad97908f0&tab=overview'
 ]))
 #
 # multi_parser = MultiParser(riot_parser)

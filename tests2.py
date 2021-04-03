@@ -1,6 +1,6 @@
 from leaguepedia_sb_parser.riot_parser import RiotParser
 from leaguepedia_sb_parser.chinese_parser import ChineseParser
-from mwcleric.esports_client import EsportsClient
+from mwclericts_client import EsportsClient
 from mwcleric.auth_credentials import AuthCredentials
 from leaguepedia_sb_parser.multi_series_parser import MultiParser
 
