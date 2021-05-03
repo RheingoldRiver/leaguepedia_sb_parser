@@ -1,8 +1,12 @@
 import math
+
+from mwrogue.errors import InvalidEventError
 from mwrogue.esports_client import EsportsClient
 from mwrogue.wiki_time_parser import time_from_str
 from lol_dto.classes.game import LolGame
 import lol_id_tools
+
+from leaguepedia_sb_parser.errors import EventCannotBeLocated
 
 
 class Parser(object):
@@ -88,7 +92,10 @@ class Parser(object):
         ]
 
     def get_final_team_name(self, team_name, team_key):
-        result = self.site.cache.get_team_from_event_tricode(self.event, team_name)
+        try:
+            result = self.site.cache.get_team_from_event_tricode(self.event, team_name)
+        except InvalidEventError:
+            raise EventCannotBeLocated
         if result is None:
             # could be None either (a) because cannot find the team name
             # or (b) because it's live server and actually the original name is None and then gg us
