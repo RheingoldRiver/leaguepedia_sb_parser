@@ -13,7 +13,7 @@ site = EsportsClient('lol', credentials=credentials)
 
 riot_parser = RiotParser(site, 'European Masters/2021 Season/Spring Play-In')
 print(riot_parser.parse_series([
-    'https://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT06/1690220?gameHash=fae16c1ad97908f0&tab=overview'
+    'https://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT01/1920423?gameHash=0a9f609312fdcda7&tab=overview'
 ]))
 #
 # multi_parser = MultiParser(riot_parser)

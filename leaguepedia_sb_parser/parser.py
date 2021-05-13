@@ -227,7 +227,9 @@ class Parser(object):
     def get_item_name(item):
         if item['id'] == 0:
             return ''
-        return item['name'] or item['id']
+        if item['name']:
+            return item['name'].replace('%i:ornnIcon%', '')
+        return item['id']
 
     def extract_player_args(self, player, team):
         player_name = self.get_player_ingame_name(player.get('inGameName'), team.get('name'))
