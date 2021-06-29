@@ -250,6 +250,7 @@ class Parser(object):
             {'summonerspell1': player['summonerSpells'][0]['name']},
             {'summonerspell2': player['summonerSpells'][1]['name']},
             {'keystone': player['runes'][0]['name'] if 'runes' in player else None},
+            {'primary': player.get('primaryRuneTreeName')},
             {'secondary': player.get('secondaryRuneTreeName')},
             {'trinket': player['endOfGameStats']['items'][6]['name']},
 
