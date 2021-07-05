@@ -11,9 +11,9 @@ import logging
 credentials = AuthCredentials(user_file="me")
 site = EsportsClient('lol', credentials=credentials)
 
-riot_parser = RiotParser(site, 'European Masters/2021 Season/Spring Play-In')
+riot_parser = RiotParser(site, 'PG Nationals/2021 Season/Summer Season')
 print(riot_parser.parse_series([
-    'https://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT01/1920423?gameHash=0a9f609312fdcda7&tab=overview'
+    'https://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT01/2040441?gameHash=28819b38e29aa586&tab=overview'
 ]))
 #
 # multi_parser = MultiParser(riot_parser)

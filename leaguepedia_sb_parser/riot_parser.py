@@ -22,7 +22,7 @@ class RiotParser(Parser):
     def get_player_ingame_name(self, ingame_name, team_name):
         if ingame_name is None:
             return None
-        return ' '.join(ingame_name.strip().split(' ')[1:])
+        return ' '.join(ingame_name.strip().split(' ')[1:].strip())
     
     def determine_teams_from_wiki(self, url):
         result = self.site.query_riot_mh(url)
