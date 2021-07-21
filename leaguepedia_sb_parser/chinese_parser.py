@@ -45,7 +45,7 @@ class ChineseParser(Parser):
         return self.patch
 
     def get_checksum(self, game):
-        return game['sources']['wp']['id']
+        return hex(game['sources']['wp']['id'])
 
     @staticmethod
     def qq_url(match_id):
