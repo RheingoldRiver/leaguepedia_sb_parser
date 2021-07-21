@@ -27,3 +27,6 @@ class RiotParser(Parser):
     def determine_teams_from_wiki(self, url):
         result = self.site.query_riot_mh(url)
         self.teams = [result['Blue'], result['Red']]
+
+    def get_checksum(self, game):
+        return None

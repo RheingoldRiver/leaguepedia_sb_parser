@@ -43,7 +43,10 @@ class ChineseParser(Parser):
     def get_resolved_patch(self, patch):
         # whatever we get from the game is gonna be completely garbage
         return self.patch
-    
+
+    def get_checksum(self, game):
+        return game['sources']['wp']['id']
+
     @staticmethod
     def qq_url(match_id):
         return "https://lpl.qq.com/es/stats.shtml?bmid={}".format(str(match_id))

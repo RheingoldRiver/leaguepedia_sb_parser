@@ -144,8 +144,12 @@ class Parser(object):
             {'time': timestamp.cet_time},
             {'statslink': url},
             {'vodlink': ''},
+            {'checksum': self.get_checksum(game)},
         ]
         return game_args
+
+    def get_checksum(self, game):
+        ...
 
     def get_resolved_patch(self, patch):
         if self.patch != patch:
