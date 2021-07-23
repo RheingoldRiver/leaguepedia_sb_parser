@@ -109,8 +109,8 @@ class Parser(object):
             self.warnings.append(
                 'Final team name for {} is missing (original: `{}`) - maybe you have to set |short= in TeamRoster if the \
                  code differs from what we use in Teamnames. You may also need to RefreshTeamnames or blank edit \
-                the team page'.format(
-                    team_key, team_name
+                the team page. Inferred event: {}'.format(
+                    team_key, team_name, self.event
                 )
             )
         return result
