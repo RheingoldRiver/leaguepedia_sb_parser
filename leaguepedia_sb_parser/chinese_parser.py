@@ -37,7 +37,7 @@ class ChineseParser(Parser):
         return re.sub(r'^' + team_name, '', ingame_name.strip())
 
     def get_initial_team_name(self, team):
-        return team.sources.wp.name
+        return team.sources.wp.name.strip()
 
     def get_resolved_patch(self, patch):
         # whatever we get from the game is gonna be completely garbage
