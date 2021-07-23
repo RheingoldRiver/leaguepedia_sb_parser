@@ -1,8 +1,8 @@
 import re
 from leaguepedia_sb_parser.parser import Parser
 from lol_esports_parser import get_chinese_series
-from lol_esports_parser import get_qq_series
 from lol_esports_parser import get_wp_series
+from lol_dto.classes.game import LolGame
 
 
 class ChineseParser(Parser):
@@ -16,15 +16,11 @@ class ChineseParser(Parser):
         if isinstance(match_id, str):
             match_id = int(match_id)
         if len(str(match_id)) == 5:
-            series = get_wp_series(self.wp_url(match_id), patch=self.patch)
+            series = get_wp_series(self.wp_url(match_id), patch=self.patch, discrete_mode=False)
         else:
-            try:
-                series = get_chinese_series(match_id, patch=self.patch)
-            except Exception as e:
-                self.warnings.append(str(e))
-                series = get_qq_series(self.qq_url(match_id), patch=self.patch)
+            series = get_chinese_series(match_id, patch=self.patch, discrete_mode=False)
         output_parts = []
-        for i, game in enumerate(series['games']):
+        for i, game in enumerate(series.games):
             self.populate_teams(game)
             output_parts.append(self.parse_one_game(game, self.qq_url(match_id)))
         if include_header:
@@ -39,13 +35,16 @@ class ChineseParser(Parser):
         # these are like random city names added at the start of the name in 2021 season
         team_name = re.search(r'[A-Za-z0-9 ]*$', team_name)[0]
         return re.sub(r'^' + team_name, '', ingame_name.strip())
-    
+
+    def get_initial_team_name(self, team):
+        return team.sources.wp.name
+
     def get_resolved_patch(self, patch):
         # whatever we get from the game is gonna be completely garbage
         return self.patch
 
-    def get_checksum(self, game):
-        return hex(game['sources']['wp']['id'])
+    def get_checksum(self, game: LolGame):
+        return hex(game.sources.wp.id)
 
     @staticmethod
     def qq_url(match_id):

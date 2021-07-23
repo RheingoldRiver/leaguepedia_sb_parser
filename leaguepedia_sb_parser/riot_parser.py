@@ -6,9 +6,9 @@ from leaguepedia_sb_parser.parser import Parser
 class RiotParser(Parser):
     
     def parse_series(self, urls: list, include_header=True):
-        series = get_riot_series(urls, get_timeline=True, add_names=True)
+        series = get_riot_series(urls, get_timeline=True)
         output_parts = []
-        for i, game in enumerate(series['games']):
+        for i, game in enumerate(series.games):
             self.populate_teams(game, url=urls[i])
             output_parts.append(self.parse_one_game(game, urls[i]))
         if include_header:
@@ -18,7 +18,10 @@ class RiotParser(Parser):
     def parse_game(self, url):
         game = get_riot_game(url)
         return self.parse_one_game(game, url)
-    
+
+    def get_initial_team_name(self, team):
+        return team.sources.inferred_name
+
     def get_player_ingame_name(self, ingame_name, team_name):
         if ingame_name is None:
             return None

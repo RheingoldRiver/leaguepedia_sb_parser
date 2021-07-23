@@ -5,7 +5,6 @@ from mwrogue.esports_client import EsportsClient
 from mwcleric.auth_credentials import AuthCredentials
 from lol_esports_parser import get_riot_game
 from lol_esports_parser import get_wp_series
-from lol_esports_parser import get_qq_series
 import logging
 
 credentials = AuthCredentials(user_file="me")
@@ -24,7 +23,7 @@ print(riot_parser.parse_series([
 
 
 # chinese_parser = ChineseParser(site, event='LPL 2020 Spring', patch='11.1')
-# print(chinese_parser.parse_series('6936'))
+# print(chinese_parser.parse_series('7605'))
 
 # with open('data.txt', 'w') as f:
 #     f.write(str(get_riot_game(
