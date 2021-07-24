@@ -20,7 +20,7 @@ class RiotParser(Parser):
         return self.parse_one_game(game, url)
 
     def get_initial_team_name(self, team):
-        return team.sources.inferred_name
+        return getattr(team.sources, 'inferred_name', None)
 
     def get_player_ingame_name(self, ingame_name, team_name):
         if ingame_name is None:
