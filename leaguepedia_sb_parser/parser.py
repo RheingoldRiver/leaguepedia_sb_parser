@@ -296,8 +296,8 @@ class Parser(object):
         runes = player.runes
         if runes is None:
             return False
-        if runes[0] is None:
+        if any([rune is None for rune in runes]):
             return False
-        if runes[0].id is None:
+        if any([rune.id is None for rune in runes]):
             return False
         return True

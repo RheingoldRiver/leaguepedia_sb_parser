@@ -10,10 +10,10 @@ import logging
 credentials = AuthCredentials(user_file="me")
 site = EsportsClient('lol', credentials=credentials)
 
-riot_parser = RiotParser(site, 'División de Honor/2021 Season/Closing Season')
-print(riot_parser.parse_series([
-    'https://matchhistory.na.leagueoflegends.com/en/#match-details/NA1/3981388323/46735781?tab=overview'
-]))
+# riot_parser = RiotParser(site, 'División de Honor/2021 Season/Closing Season')
+# print(riot_parser.parse_series([
+#     'https://matchhistory.na.leagueoflegends.com/en/#match-details/NA1/3981388323/46735781?tab=overview'
+# ]))
 #
 # multi_parser = MultiParser(riot_parser)
 #
@@ -22,13 +22,12 @@ print(riot_parser.parse_series([
 # print('<br>'.join(riot_parser.warnings))
 
 
-# chinese_parser = ChineseParser(site, event='LPL 2021 Spring', patch='11.1')
-# print(chinese_parser.parse_series('7605'))
+chinese_parser = ChineseParser(site, event='LPL 2021 Summer Playoffs', patch='11.1')
+print(chinese_parser.parse_series('8098'))
 
 # with open('data.txt', 'w') as f:
 #     f.write(str(get_riot_game(
 #         'https://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT02/1611575?gameHash=7cfc8b40c5243474&tab=overview',
 #         # get_timeline=True,
-#         add_names=True,
-#         # patch="10.16"
+#         patch="10.16"
 #     )))
