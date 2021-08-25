@@ -121,10 +121,10 @@ class Parser(object):
     def make_match_header(self):
         return self.HEADER_TEXT.format(self.teams[0] or '', self.teams[1] or '')
 
-    def parse_one_game(self, game: LolGame, url):
+    def parse_one_game(self, game: LolGame, url, key: str = "statslink"):
         self.init_lol_id_tools()
         return self.GAME_TEXT.format(
-            self.concat_args(self.extract_game_args(game, url)),
+            self.concat_args(self.extract_game_args(game, url, key=key)),
             self.parse_teams(game)
         )
 
@@ -133,7 +133,7 @@ class Parser(object):
         """Deal with the race condition"""
         lol_id_tools.get_name(85, object_type="champion")
 
-    def extract_game_args(self, game: LolGame, url):
+    def extract_game_args(self, game: LolGame, url, key):
         timestamp = time_from_str(game.start)
         patch = game.patch
         if self.patch is not None and patch is not None:
@@ -149,7 +149,7 @@ class Parser(object):
             {'date': timestamp.cet_date},
             {'dst': timestamp.dst},
             {'time': timestamp.cet_time},
-            {'statslink': url},
+            {key: url},
             {'vodlink': ''},
             {'checksum': self.get_checksum(game)},
         ]

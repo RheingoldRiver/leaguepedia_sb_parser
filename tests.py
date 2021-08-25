@@ -1,3 +1,6 @@
+import lol_esports_parser
+
+from leaguepedia_sb_parser.bayes_parser import BayesParser
 from leaguepedia_sb_parser.riot_parser import RiotParser
 from leaguepedia_sb_parser.chinese_parser import ChineseParser
 from leaguepedia_sb_parser.multi_series_parser import MultiParser
@@ -22,8 +25,8 @@ site = EsportsClient('lol', credentials=credentials)
 # print('<br>'.join(riot_parser.warnings))
 
 
-chinese_parser = ChineseParser(site, event='LPL 2021 Summer Playoffs', patch='11.1')
-print(chinese_parser.parse_series('8098'))
+# chinese_parser = ChineseParser(site, event='LPL 2021 Summer Playoffs', patch='11.1')
+# print(chinese_parser.parse_series('8098'))
 
 # with open('data.txt', 'w') as f:
 #     f.write(str(get_riot_game(
@@ -31,3 +34,7 @@ print(chinese_parser.parse_series('8098'))
 #         # get_timeline=True,
 #         patch="10.16"
 #     )))
+
+
+bayes_parser = BayesParser(site, 'LCK 2021 Summer Playoffs')
+print(bayes_parser.parse_series(['ESPORTSTMNT01_2200321']))

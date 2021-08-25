@@ -1,0 +1,12 @@
+[tool.poetry]
+name = "leaguepedia_sb_parser"
+version = "0.0.0"
+description = ""
+authors = ["RheingoldRiver"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+lol-esports-parser = {git = "https://github.com/mrtolkien/lol_esports_parser.git"}
+
+[tool.poetry.dev-dependencies]
+pytest = "^3.4"
