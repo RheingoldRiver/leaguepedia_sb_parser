@@ -37,4 +37,4 @@ site = EsportsClient('lol', credentials=credentials)
 
 
 bayes_parser = BayesParser(site, 'LCK 2021 Summer Playoffs')
-print(bayes_parser.parse_series(['ESPORTSTMNT01_2200321']))
+print(bayes_parser.parse_series(['ESPORTSTMNT01_2201262']))
