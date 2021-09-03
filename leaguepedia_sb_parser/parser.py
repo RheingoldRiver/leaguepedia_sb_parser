@@ -46,6 +46,13 @@ class Parser(object):
         # so even though this really doesn't belong here let's just, allow it ok sorry
         self.teams = []
 
+        self.first_teams = None
+
+    def save_teams(self, team1, team2):
+        self.teams = [team1, team2]
+        if self.first_teams is None:
+            self.first_teams = [team1, team2]
+
     def clear_warnings(self):
         self.warnings = []
 
@@ -88,12 +95,11 @@ class Parser(object):
             if url is not None:
                 self.determine_teams_from_wiki(url)
             else:
-                self.teams = [None, None]
+                self.save_teams(None, None)
             return
-        self.teams = [
-            self.get_final_team_name(blue, 'blue') or blue,
-            self.get_final_team_name(red, 'red') or red,
-        ]
+        self.save_teams(self.get_final_team_name(blue, 'blue') or blue,
+                        self.get_final_team_name(red, 'red') or red
+                        )
 
     def get_initial_team_name(self, team):
         ...
@@ -116,7 +122,7 @@ class Parser(object):
         return result
 
     def determine_teams_from_wiki(self, url):
-        self.teams = [None, None]
+        self.save_teams(None, None)
 
     def make_match_header(self):
         return self.HEADER_TEXT.format(self.teams[0] or '', self.teams[1] or '')
@@ -213,7 +219,7 @@ class Parser(object):
     def team_drake_count(team: LolGameTeam, dragon_type):
         if not hasattr(team, 'epicMonstersKills'):
             return None
-        return len([_ for _ in team.epicMonstersKills if _.subType == dragon_type])
+        return len([_ for _ in team.epicMonstersKills if _.subType == dragon_type and _.type == 'DRAGON'])
 
     def parse_players(self, side_name, team: LolGameTeam):
         ret = []
