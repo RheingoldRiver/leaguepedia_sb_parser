@@ -235,7 +235,7 @@ class Parser(object):
                     'item'
                 ),
                 self.RUNES_TEXT.format(
-                    ','.join([_.name if _.name is not None else str(_.id) for _ in player.runes])
+                    ','.join([self.get_player_rune_display(_) for _ in player.runes])
                 ) if self.should_get_rune_names(player) else ''
             ))
         return '\n'.join(ret)
@@ -266,7 +266,7 @@ class Parser(object):
             {'damagetochamps': player.endOfGameStats.totalDamageDealtToChampions},
             {'summonerspell1': player.summonerSpells[0].name},
             {'summonerspell2': player.summonerSpells[1].name},
-            {'keystone': player.runes[0].name if self.should_get_rune_names(player) else None},
+            {'keystone': self.get_player_rune_display(player.runes[0]) if self.should_get_rune_names(player) else None},
             {'primary': player.primaryRuneTreeName if self.should_get_rune_names(player) else None},
             {'secondary': player.secondaryRuneTreeName if self.should_get_rune_names(player) else None},
             {'trinket': player.endOfGameStats.items[6].name},
@@ -294,6 +294,12 @@ class Parser(object):
         warning = 'Disambiguated name for {} couldn\'t be found, perhaps player is missing from participants!'
         self.warnings.append(warning.format(player_name))
         return player_name
+
+    @staticmethod
+    def get_player_rune_display(rune: LolGamePlayerRune):
+        if rune.name is not None:
+            return rune.name
+        return str(rune.id)
 
     @staticmethod
     def should_get_rune_names(player: LolGamePlayer):
