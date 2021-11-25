@@ -235,7 +235,7 @@ class Parser(object):
                     'item'
                 ),
                 self.RUNES_TEXT.format(
-                    ','.join([_.name for _ in player.runes])
+                    ','.join([_.name if _.name is not None else str(_.id) for _ in player.runes])
                 ) if self.should_get_rune_names(player) else ''
             ))
         return '\n'.join(ret)
