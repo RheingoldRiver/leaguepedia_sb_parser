@@ -29,6 +29,9 @@ class LiveParser(RiotParser):
         region = LiveParser.SERVER_TO_REGION[server]
         return get_live_series(region, urls, 'team1', 'team2')
 
+    def get_player_ingame_name(self, ingame_name, team_name):
+        return ingame_name
+
     @staticmethod
     def is_live_server(url: str) -> bool:
         if LiveParser.SERVER_TO_REGION.get(url.split('_')[0]) is not None:
