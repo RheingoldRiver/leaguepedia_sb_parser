@@ -12,6 +12,9 @@ from leaguepedia_sb_parser.errors import EventCannotBeLocated
 
 
 class Parser(object):
+    statslink = 'statslink'
+    version: int = None
+
     HEADER_TEXT = "{{{{Scoreboard/Header|{}|{}}}}}"
 
     GAME_TEXT = '{{{{Scoreboard/Season 8{}\n{}\n}}}}'
@@ -155,7 +158,8 @@ class Parser(object):
             {'date': timestamp.cet_date},
             {'dst': timestamp.dst},
             {'time': timestamp.cet_time},
-            {key: url},
+            {self.statslink: url},
+            {'version': self.version},
             {'vodlink': ''},
             {'checksum': self.get_checksum(game)},
         ]

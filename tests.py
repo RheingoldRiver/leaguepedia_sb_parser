@@ -2,6 +2,7 @@ import lol_esports_parser
 
 from leaguepedia_sb_parser.bayes_parser import BayesParser
 from leaguepedia_sb_parser.riot_parser import RiotParser
+from leaguepedia_sb_parser.live_parser import LiveParser
 from leaguepedia_sb_parser.chinese_parser import ChineseParser
 from leaguepedia_sb_parser.multi_series_parser import MultiParser
 from mwrogue.esports_client import EsportsClient
@@ -35,6 +36,9 @@ riot_parser = RiotParser(site, 'LCS Proving Grounds/2021 Season/Summer/Proving G
 #         patch="10.16"
 #     )))
 
+live_parser = LiveParser(site, 'Philly Esports Collegiate League of Legends Tournament')
+print(live_parser.parse_series(['NA1_4119150232', 'NA1_4119150384']))
 
-bayes_parser = BayesParser(site, 'VCS/2021_Season/Winter_Season')
-print(riot_parser.parse_series(["http://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT03/2101092?gameHash=53736543e6280226"]))
+
+# bayes_parser = BayesParser(site, 'VCS/2021_Season/Winter_Season')
+# print(riot_parser.parse_series(["http://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT03/2101092?gameHash=53736543e6280226"]))

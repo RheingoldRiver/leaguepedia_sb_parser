@@ -4,7 +4,8 @@ from leaguepedia_sb_parser.parser import Parser
 
 
 class RiotParser(Parser):
-    
+    version = 4
+
     def parse_series(self, urls: list, include_header=True):
         series = self.get_series(urls)
         output_parts = []

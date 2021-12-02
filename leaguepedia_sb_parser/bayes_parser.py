@@ -5,6 +5,8 @@ from leaguepedia_sb_parser.riot_parser import RiotParser
 
 
 class BayesParser(RiotParser):
+    statslink = 'rpgid'
+    version = 5
 
     @staticmethod
     def get_series(urls):
