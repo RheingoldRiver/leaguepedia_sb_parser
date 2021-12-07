@@ -215,8 +215,8 @@ class Parser(object):
             {team_key + 'infernal': self.team_drake_count(team, "INFERNAL")},
             {team_key + 'mountain': self.team_drake_count(team, "MOUNTAIN")},
             {team_key + 'ocean': self.team_drake_count(team, "OCEAN")},
-            {team_key + 'hextech': self.team_drake_count(team, "HEXTECH")},
-            {team_key + 'chemtech': self.team_drake_count(team, "CHEMTECH")},
+            {team_key + 'hextech': self.team_drake_count(team, "HEXTECH_DRAGON") + self.team_drake_count(team, "HEXTECH")},
+            {team_key + 'chemtech': self.team_drake_count(team, "CHEMTECH_DRAGON") + self.team_drake_count(team, "CHEMTECH")},
             {team_key + 'elder': self.team_drake_count(team, "ELDER")},
         ]
         return team_args
