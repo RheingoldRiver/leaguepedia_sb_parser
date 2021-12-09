@@ -268,7 +268,7 @@ class Parser(object):
             {'assists': player.endOfGameStats.assists},
             {'gold': player.endOfGameStats.gold},
             {'cs': player.endOfGameStats.cs},
-            {'visionscore': player.endOfGameStats.visionScore},
+            {'visionscore': round(float(player.endOfGameStats.visionScore), None)},
             {'damagetochamps': round(float(player.endOfGameStats.totalDamageDealtToChampions), None)},
             {'summonerspell1': player.summonerSpells[0].name},
             {'summonerspell2': player.summonerSpells[1].name},
