@@ -36,9 +36,9 @@ riot_parser = RiotParser(site, 'LCS Proving Grounds/2021 Season/Summer/Proving G
 #         patch="10.16"
 #     )))
 
-# live_parser = LiveParser(site, 'Philly Esports Collegiate League of Legends Tournament')
-# print(live_parser.parse_series(['NA1_4118970638']))
+live_parser = LiveParser(site, 'Philly Esports Collegiate League of Legends Tournament')
+print(live_parser.parse_series(['NA1_4119150232']))
 
 
-bayes_parser = BayesParser(site, 'VCS/2021_Season/Winter_Season')
-print(bayes_parser.parse_series(["ESPORTSTMNT01_2591840"]))
+# bayes_parser = BayesParser(site, 'VCS/2021_Season/Winter_Season')
+# print(bayes_parser.parse_series(["ESPORTSTMNT01_2591840"]))

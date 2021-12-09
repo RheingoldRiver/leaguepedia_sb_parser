@@ -269,7 +269,7 @@ class Parser(object):
             {'gold': player.endOfGameStats.gold},
             {'cs': player.endOfGameStats.cs},
             {'visionscore': player.endOfGameStats.visionScore},
-            {'damagetochamps': player.endOfGameStats.totalDamageDealtToChampions},
+            {'damagetochamps': round(float(player.endOfGameStats.totalDamageDealtToChampions), None)},
             {'summonerspell1': player.summonerSpells[0].name},
             {'summonerspell2': player.summonerSpells[1].name},
             {'keystone': self.get_player_rune_display(player.runes[0]) if self.should_get_rune_names(player) else None},

@@ -37,3 +37,4 @@ class LiveParser(RiotParser):
         if LiveParser.SERVER_TO_REGION.get(url.split('_')[0]) is not None:
             return True
         return False
+# http://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT01/2591840?gameHash=6418c961cab05bf7
