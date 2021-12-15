@@ -15,6 +15,8 @@ class LiveParser(RiotParser):
         'LA2': 'AMERICAS',
         'OC1': 'AMERICAS',
         'KR': 'ASIA',
+        'VN': 'ASIA',
+        'VN1': 'ASIA', # idk which it is
         'JP1': 'ASIA',
         'EUN1': 'EUROPE',
         'EUW1': 'EUROPE',
