@@ -1,5 +1,5 @@
 import math
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from lol_dto.names_helper.name_classes import ItemNameClass
 from mwrogue.errors import InvalidEventError
@@ -302,7 +302,7 @@ class Parser(object):
         return player_name
 
     @staticmethod
-    def round(num: Optional[str, float, int]):
+    def round(num: Optional[Union[str, float, int]]):
         if num is None:
             return None
         return round(float(num), None)
