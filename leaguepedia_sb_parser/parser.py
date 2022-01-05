@@ -1,5 +1,5 @@
 import math
-from typing import List
+from typing import List, Optional
 
 from lol_dto.names_helper.name_classes import ItemNameClass
 from mwrogue.errors import InvalidEventError
@@ -268,8 +268,8 @@ class Parser(object):
             {'assists': player.endOfGameStats.assists},
             {'gold': player.endOfGameStats.gold},
             {'cs': player.endOfGameStats.cs},
-            {'visionscore': round(float(player.endOfGameStats.visionScore), None)},
-            {'damagetochamps': round(float(player.endOfGameStats.totalDamageDealtToChampions), None)},
+            {'visionscore': self.round(player.endOfGameStats.visionScore)},
+            {'damagetochamps': self.round(player.endOfGameStats.totalDamageDealtToChampions)},
             {'summonerspell1': player.summonerSpells[0].name},
             {'summonerspell2': player.summonerSpells[1].name},
             {'keystone': self.get_player_rune_display(player.runes[0]) if self.should_get_rune_names(player) else None},
@@ -300,6 +300,12 @@ class Parser(object):
         warning = 'Disambiguated name for {} couldn\'t be found, perhaps player is missing from participants!'
         self.warnings.append(warning.format(player_name))
         return player_name
+
+    @staticmethod
+    def round(num: Optional[str, float, int]):
+        if num is None:
+            return None
+        return round(float(num), None)
 
     @staticmethod
     def get_player_rune_display(rune: LolGamePlayerRune):

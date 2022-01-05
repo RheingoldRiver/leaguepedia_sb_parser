@@ -14,9 +14,9 @@ import logging
 credentials = AuthCredentials(user_file="me")
 site = EsportsClient('lol', credentials=credentials)
 
-riot_parser = RiotParser(site, 'LCS Proving Grounds/2021 Season/Summer/Proving Grounds Qualifiers')
+# riot_parser = RiotParser(site, 'LCS Proving Grounds/2021 Season/Summer/Proving Grounds Qualifiers')
 # print(riot_parser.parse_series([
-#     'https://matchhistory.na.leagueoflegends.com/en/#match-details/NA1/3981388323/46735781?tab=overview'
+#     'http://matchhistory.vn.leagueoflegends.com/vn/#match-details/VN/4029200630/'
 # ]))
 #
 # multi_parser = MultiParser(riot_parser)
