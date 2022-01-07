@@ -1,6 +1,7 @@
 import lol_esports_parser
 
 from leaguepedia_sb_parser.bayes_parser import BayesParser
+from leaguepedia_sb_parser.qq_parser import QQParser
 from leaguepedia_sb_parser.riot_parser import RiotParser
 from leaguepedia_sb_parser.live_parser import LiveParser
 from leaguepedia_sb_parser.chinese_parser import ChineseParser
@@ -29,6 +30,9 @@ site = EsportsClient('lol', credentials=credentials)
 # chinese_parser = ChineseParser(site, event='LPL 2021 Summer Playoffs', patch='11.1')
 # print(chinese_parser.parse_series('8098'))
 
+# qq_parser = QQParser(site, event='Demacia Cup 2022', patch='11.17')
+# print(qq_parser.parse_series(8108))
+
 # with open('data.txt', 'w') as f:
 #     f.write(str(get_riot_game(
 #         'https://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT02/1611575?gameHash=7cfc8b40c5243474&tab=overview',
@@ -36,9 +40,9 @@ site = EsportsClient('lol', credentials=credentials)
 #         patch="10.16"
 #     )))
 
-live_parser = LiveParser(site, 'Philly Esports Collegiate League of Legends Tournament')
-print(live_parser.parse_series(['NA1_4119150232']))
+# live_parser = LiveParser(site, 'Philly Esports Collegiate League of Legends Tournament')
+# print(live_parser.parse_series(['NA1_4119150232']))
 
 
-# bayes_parser = BayesParser(site, 'VCS/2021_Season/Winter_Season')
-# print(bayes_parser.parse_series(["ESPORTSTMNT01_2591840"]))
+bayes_parser = BayesParser(site, 'VCS/2021_Season/Winter_Season')
+print(bayes_parser.parse_series(["ESPORTSTMNT01_2591840"]))

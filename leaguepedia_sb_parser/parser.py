@@ -1,14 +1,15 @@
 import math
-from typing import List, Optional, Union
+from typing import Optional, Union
 
 from lol_dto.names_helper.name_classes import ItemNameClass
 from mwrogue.errors import InvalidEventError
 from mwrogue.esports_client import EsportsClient
 from mwrogue.wiki_time_parser import time_from_str
-from lol_dto.classes.game import LolGame, LolGameTeam, LolGamePlayerSnapshot, LolGamePlayer, LolGamePlayerRune
+from lol_dto.classes.game import LolGame, LolGameTeam, LolGamePlayer, LolGamePlayerRune
 import lol_id_tools
 
-from leaguepedia_sb_parser.errors import EventCannotBeLocated
+from leaguepedia_sb_parser.components.rune_tree_handler import RuneTreeHandler
+from leaguepedia_sb_parser.components.errors import EventCannotBeLocated
 
 
 class Parser(object):
@@ -43,6 +44,7 @@ class Parser(object):
         self.tournament = event
         self.event = site.target(event)
         self.warnings = []
+        self.rune_tree_handler = None
 
         # this is the only case of a thing we need to keep track of separate from just generating the sb string
         # it has to be used to generate the heading
@@ -147,6 +149,8 @@ class Parser(object):
         patch = game.patch
         if self.patch is not None and patch is not None:
             patch = self.get_resolved_patch(patch)
+            self.patch = patch
+        self.rune_tree_handler = RuneTreeHandler(self.patch)
         if self.patch is None and patch is None:
             self.warnings.append('Patch is not provided and also not available in game! Leaving blank....')
         game_args = [
@@ -273,9 +277,9 @@ class Parser(object):
             {'summonerspell1': player.summonerSpells[0].name},
             {'summonerspell2': player.summonerSpells[1].name},
             {'keystone': self.get_player_rune_display(player.runes[0]) if self.should_get_rune_names(player) else None},
-            {'primary': player.primaryRuneTreeName if self.should_get_rune_names(player) else None},
-            {'secondary': player.secondaryRuneTreeName if self.should_get_rune_names(player) else None},
-            {'trinket': player.endOfGameStats.items[6].name},
+            {'primary': self.rune_tree_handler.get_primary_tree_name(player.runes) if self.should_get_rune_names(player) else None},
+            {'secondary': self.rune_tree_handler.get_secondary_tree_name(player.runes) if self.should_get_rune_names(player) else None},
+            {'trinket': player.endOfGameStats.items[-1].name},
 
             # keep this last so it's consecutive with pentakillvod
             {'pentakills': player.endOfGameStats.pentaKills},
