@@ -16,12 +16,13 @@ class RiotParser(Parser):
             output_parts.insert(0, self.make_match_header())
         return '\n'.join(output_parts)
 
-    @staticmethod
-    def get_series(urls):
-        return get_riot_series(urls, get_timeline=True)
+    def get_series(self, urls):
+        return get_riot_series(urls, get_timeline=True,
+                               use_leaguepedia_mirror=self.use_leaguepedia_mirror)
 
     def parse_game(self, url):
-        game = get_riot_game(url)
+        game = get_riot_game(url, get_timeline=True,
+                             use_leaguepedia_mirror=self.use_leaguepedia_mirror)
         return self.parse_one_game(game, url, key="statslink")
 
     def get_initial_team_name(self, team):

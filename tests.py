@@ -15,10 +15,10 @@ import logging
 credentials = AuthCredentials(user_file="me")
 site = EsportsClient('lol', credentials=credentials)
 
-# riot_parser = RiotParser(site, 'LCS Proving Grounds/2021 Season/Summer/Proving Grounds Qualifiers')
-# print(riot_parser.parse_series([
-#     'http://matchhistory.vn.leagueoflegends.com/vn/#match-details/VN/4029200630/'
-# ]))
+riot_parser = RiotParser(site, 'LEC 2022 Spring', use_leaguepedia_mirror=True)
+print(riot_parser.parse_series([
+    'http://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT06/2210192?gameHash=93de4a51b6baf542'
+]))
 #
 # multi_parser = MultiParser(riot_parser)
 #
@@ -44,5 +44,5 @@ site = EsportsClient('lol', credentials=credentials)
 # print(live_parser.parse_series(['NA1_4119150232']))
 
 
-bayes_parser = BayesParser(site, 'VCS/2021_Season/Winter_Season')
-print(bayes_parser.parse_series(["ESPORTSTMNT01_2591840"]))
+# bayes_parser = BayesParser(site, 'VCS/2021_Season/Winter_Season')
+# print(bayes_parser.parse_series(["ESPORTSTMNT01_2591840"]))

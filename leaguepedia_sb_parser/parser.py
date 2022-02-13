@@ -34,7 +34,8 @@ class Parser(object):
 
     TEAM_NAMES = ['blue', 'red']
 
-    def __init__(self, site: EsportsClient, event: str, patch: str = None):
+    def __init__(self, site: EsportsClient, event: str, patch: str = None,
+                 use_leaguepedia_mirror: bool = False):
         # patch could be an empty string if it's from a cookie
         # handle it here because there's branching changes in flask
         if patch == '':
@@ -45,6 +46,7 @@ class Parser(object):
         self.event = site.target(event)
         self.warnings = []
         self.rune_tree_handler = None
+        self.use_leaguepedia_mirror = use_leaguepedia_mirror
 
         # this is the only case of a thing we need to keep track of separate from just generating the sb string
         # it has to be used to generate the heading
