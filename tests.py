@@ -15,10 +15,10 @@ import logging
 credentials = AuthCredentials(user_file="me")
 site = EsportsClient('lol', credentials=credentials)
 
-riot_parser = RiotParser(site, 'LEC 2022 Spring', use_leaguepedia_mirror=True)
-print(riot_parser.parse_series([
-    'http://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT06/2210192?gameHash=93de4a51b6baf542'
-]))
+# riot_parser = RiotParser(site, 'LEC 2022 Spring')
+# print(riot_parser.parse_series([
+#     'http://matchhistory.na.leagueoflegends.com/en/#match-details/ESPORTSTMNT06/2210192?gameHash=93de4a51b6baf542'
+# ]))
 #
 # multi_parser = MultiParser(riot_parser)
 #
@@ -30,8 +30,8 @@ print(riot_parser.parse_series([
 # chinese_parser = ChineseParser(site, event='LPL 2021 Summer Playoffs', patch='11.1')
 # print(chinese_parser.parse_series('8098'))
 
-# qq_parser = QQParser(site, event='Demacia Cup 2022', patch='11.17')
-# print(qq_parser.parse_series(8108))
+# qq_parser = QQParser(site, event='Demacia Cup 2022', patch='12.5')
+# print(qq_parser.parse_series(8413))
 
 # with open('data.txt', 'w') as f:
 #     f.write(str(get_riot_game(
@@ -44,5 +44,5 @@ print(riot_parser.parse_series([
 # print(live_parser.parse_series(['NA1_4119150232']))
 
 
-# bayes_parser = BayesParser(site, 'VCS/2021_Season/Winter_Season')
-# print(bayes_parser.parse_series(["ESPORTSTMNT01_2591840"]))
+bayes_parser = BayesParser(site, 'VCS/2021_Season/Winter_Season')
+print(bayes_parser.parse_series(["ESPORTSTMNT03_2654072"]))

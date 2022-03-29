@@ -152,6 +152,8 @@ class Parser(object):
         if self.patch is not None and patch is not None:
             patch = self.get_resolved_patch(patch)
             self.patch = patch
+        elif patch is not None:
+            self.patch = patch
         self.rune_tree_handler = RuneTreeHandler(self.patch)
         if self.patch is None and patch is None:
             self.warnings.append('Patch is not provided and also not available in game! Leaving blank....')
