@@ -315,9 +315,11 @@ class Parser(object):
             return None
         return round(float(num), None)
 
-    @staticmethod
-    def get_player_rune_display(rune: LolGamePlayerRune):
+    def get_player_rune_display(self, rune: LolGamePlayerRune):
         if rune.name is not None:
+            # absolute bullshit
+            if self.patch == '12.5' and rune.name == 'Treasure Hunter':
+                return 'Ravenous Hunter'
             return rune.name
         return str(rune.id)
 
