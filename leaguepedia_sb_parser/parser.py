@@ -2,6 +2,7 @@ import math
 from typing import Optional, Union
 
 from lol_dto.names_helper.name_classes import ItemNameClass
+from lol_id_tools import VersionedNameGetter
 from mwrogue.errors import InvalidEventError
 from mwrogue.esports_client import EsportsClient
 from mwrogue.wiki_time_parser import time_from_str
@@ -47,6 +48,8 @@ class Parser(object):
         self.warnings = []
         self.rune_tree_handler = None
         self.use_leaguepedia_mirror = use_leaguepedia_mirror
+        self.name_getter = None
+        self.name_getter: VersionedNameGetter
 
         # this is the only case of a thing we need to keep track of separate from just generating the sb string
         # it has to be used to generate the heading
@@ -135,31 +138,24 @@ class Parser(object):
         return self.HEADER_TEXT.format(self.teams[0] or '', self.teams[1] or '')
 
     def parse_one_game(self, game: LolGame, url, key: str = "statslink"):
-        self.init_lol_id_tools()
+        self.init_lit()
         return self.GAME_TEXT.format(
             self.concat_args(self.extract_game_args(game, url, key=key)),
             self.parse_teams(game)
         )
 
     @staticmethod
-    def init_lol_id_tools():
+    def init_lit():
         """Deal with the race condition"""
         lol_id_tools.get_name(85, object_type="champion")
 
     def extract_game_args(self, game: LolGame, url, key):
         timestamp = time_from_str(game.start)
-        patch = game.patch
-        if self.patch is not None and patch is not None:
-            patch = self.get_resolved_patch(patch)
-            self.patch = patch
-        elif patch is not None:
-            self.patch = patch
-        self.rune_tree_handler = RuneTreeHandler(self.patch)
-        if self.patch is None and patch is None:
-            self.warnings.append('Patch is not provided and also not available in game! Leaving blank....')
+        self.set_patch_constants(game)
+
         game_args = [
             {'tournament': self.tournament},
-            {'patch': patch or self.patch},
+            {'patch': self.patch},
             {'winner': 1 if game.winner == 'BLUE' else 2},
             {'gamelength': self.get_duration(game.duration)},
             {'timezone': 'CET'},
@@ -172,6 +168,18 @@ class Parser(object):
             {'checksum': self.get_checksum(game)},
         ]
         return game_args
+
+    def set_patch_constants(self, game: LolGame):
+        patch = game.patch
+        if self.patch is not None and patch is not None:
+            patch = self.get_resolved_patch(patch)
+            self.patch = patch
+        elif patch is not None:
+            self.patch = patch
+        self.name_getter = VersionedNameGetter(self.patch)
+        self.rune_tree_handler = RuneTreeHandler(self.patch)
+        if self.patch is None and patch is None:
+            self.warnings.append('Patch is not provided and also not available in game! Leaving blank....')
 
     def get_checksum(self, game: LolGame):
         ...
@@ -254,13 +262,14 @@ class Parser(object):
             ))
         return '\n'.join(ret)
 
-    @staticmethod
-    def get_item_name(item: ItemNameClass):
+    def get_item_name(self, item: ItemNameClass):
         if item.id == 0:
             return ''
-        if item.name:
-            return item.name.replace('%i:ornnIcon%', '')
-        return item.id
+        try:
+            name = self.name_getter.get_name(item.id, object_type="item")
+            return name.replace('%i:ornnIcon%', '')
+        except KeyError:
+            return item.id
 
     def extract_player_args(self, player: LolGamePlayer, team: LolGameTeam):
         player_name = self.get_player_ingame_name(player.inGameName, self.get_initial_team_name(team))
@@ -316,12 +325,10 @@ class Parser(object):
         return round(float(num), None)
 
     def get_player_rune_display(self, rune: LolGamePlayerRune):
-        if rune.name is not None:
-            # absolute bullshit
-            if self.patch == '12.5' and rune.name == 'Treasure Hunter':
-                return 'Ravenous Hunter'
-            return rune.name
-        return str(rune.id)
+        try:
+            return self.name_getter.get_name(rune.id, object_type="rune")
+        except KeyError:
+            return str(rune.id)
 
     @staticmethod
     def should_get_rune_names(player: LolGamePlayer):
